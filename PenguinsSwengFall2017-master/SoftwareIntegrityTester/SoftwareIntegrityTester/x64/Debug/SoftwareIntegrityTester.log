@@ -1,3 +1,2 @@
-﻿  MainForm.cpp
-MainForm.cpp(7): warning C4829: Possibly incorrect parameters to function main. Consider 'int main(Platform::Array<Platform::String^>^ argv)'
-  SoftwareIntegrityTester.vcxproj -> C:\Users\BG\Desktop\PenguinsSwengFall2017-master\SoftwareIntegrityTester\x64\Debug\SoftwareIntegrityTester.exe
+﻿  SoftwareIntegrityTester.vcxproj -> \\rowanads.rowan.edu\home\christenc3\Desktop\PenguinsSwengFall2017-master\PenguinsSwengFall2017-master\SoftwareIntegrityTester\x64\Debug\SoftwareIntegrityTester.exe
+  SoftwareIntegrityTester.vcxproj -> \\rowanads.rowan.edu\home\christenc3\Desktop\PenguinsSwengFall2017-master\PenguinsSwengFall2017-master\SoftwareIntegrityTester\x64\Debug\SoftwareIntegrityTester.pdb (Partial PDB)
