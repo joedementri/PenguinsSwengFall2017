@@ -1,0 +1,166 @@
+#pragma once
+
+namespace SoftwareIntegrityTester {
+
+	using namespace System;
+	using namespace System::ComponentModel;
+	using namespace System::Collections;
+	using namespace System::Windows::Forms;
+	using namespace System::Data;
+	using namespace System::Drawing;
+
+	/// <summary>
+	/// Summary for MainForm
+	/// </summary>
+	public ref class MainForm : public System::Windows::Forms::Form
+	{
+	public:
+		MainForm(void)
+		{
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
+
+	protected:
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		~MainForm()
+		{
+			if (components)
+			{
+				delete components;
+			}
+		}
+	private: System::Windows::Forms::MenuStrip^  menuStrip1;
+	protected:
+
+	private: System::Windows::Forms::ToolStripMenuItem^  filterToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  helpToolStripMenuItem;
+	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::Button^  button2;
+
+	private: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::ListBox^  listBox1;
+
+
+	private:
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		System::ComponentModel::Container ^components;
+
+#pragma region Windows Form Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		void InitializeComponent(void)
+		{
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
+			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
+			this->filterToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->listBox1 = (gcnew System::Windows::Forms::ListBox());
+			this->menuStrip1->SuspendLayout();
+			this->SuspendLayout();
+			// 
+			// menuStrip1
+			// 
+			this->menuStrip1->ImageScalingSize = System::Drawing::Size(20, 20);
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				this->filterToolStripMenuItem,
+					this->helpToolStripMenuItem
+			});
+			this->menuStrip1->Location = System::Drawing::Point(0, 0);
+			this->menuStrip1->Name = L"menuStrip1";
+			this->menuStrip1->Size = System::Drawing::Size(488, 28);
+			this->menuStrip1->TabIndex = 0;
+			this->menuStrip1->Text = L"menuStrip1";
+			// 
+			// filterToolStripMenuItem
+			// 
+			this->filterToolStripMenuItem->Name = L"filterToolStripMenuItem";
+			this->filterToolStripMenuItem->Size = System::Drawing::Size(54, 24);
+			this->filterToolStripMenuItem->Text = L"Filter";
+			// 
+			// helpToolStripMenuItem
+			// 
+			this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
+			this->helpToolStripMenuItem->Size = System::Drawing::Size(53, 24);
+			this->helpToolStripMenuItem->Text = L"Help";
+			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(12, 378);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(120, 60);
+			this->button1->TabIndex = 1;
+			this->button1->Text = L"Open";
+			this->button1->UseVisualStyleBackColor = true;
+			// 
+			// button2
+			// 
+			this->button2->Location = System::Drawing::Point(138, 378);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(120, 60);
+			this->button2->TabIndex = 2;
+			this->button2->Text = L"Run";
+			this->button2->UseVisualStyleBackColor = true;
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Location = System::Drawing::Point(396, 424);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(92, 17);
+			this->label1->TabIndex = 4;
+			this->label1->Text = L"Version 1.0.0";
+			// 
+			// listBox1
+			// 
+			this->listBox1->FormattingEnabled = true;
+			this->listBox1->ItemHeight = 16;
+			this->listBox1->Items->AddRange(gcnew cli::array< System::Object^  >(3) { L"Test", L"Test2", L"Test3" });
+			this->listBox1->Location = System::Drawing::Point(12, 42);
+			this->listBox1->Name = L"listBox1";
+			this->listBox1->Size = System::Drawing::Size(464, 308);
+			this->listBox1->TabIndex = 5;
+			this->listBox1->SelectedIndexChanged += gcnew System::EventHandler(this, &MainForm::listBox1_SelectedIndexChanged);
+			// 
+			// MainForm
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
+			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->ClientSize = System::Drawing::Size(488, 450);
+			this->Controls->Add(this->listBox1);
+			this->Controls->Add(this->label1);
+			this->Controls->Add(this->button2);
+			this->Controls->Add(this->button1);
+			this->Controls->Add(this->menuStrip1);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+			this->MainMenuStrip = this->menuStrip1;
+			this->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->MaximizeBox = false;
+			this->MaximumSize = System::Drawing::Size(506, 497);
+			this->MinimumSize = System::Drawing::Size(506, 497);
+			this->Name = L"MainForm";
+			this->Text = L"Software Integrity Tester";
+			this->menuStrip1->ResumeLayout(false);
+			this->menuStrip1->PerformLayout();
+			this->ResumeLayout(false);
+			this->PerformLayout();
+
+		}
+#pragma endregion
+	private: System::Void textBox3_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+	}
+private: System::Void listBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+}
+};
+}
