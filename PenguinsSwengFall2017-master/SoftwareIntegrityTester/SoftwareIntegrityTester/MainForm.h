@@ -101,7 +101,7 @@ namespace SoftwareIntegrityTester {
 			// button1
 			// 
 			this->button1->Location = System::Drawing::Point(9, 307);
-			this->button1->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->button1->Margin = System::Windows::Forms::Padding(2);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(90, 49);
 			this->button1->TabIndex = 1;
@@ -112,7 +112,7 @@ namespace SoftwareIntegrityTester {
 			// button2
 			// 
 			this->button2->Location = System::Drawing::Point(104, 307);
-			this->button2->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->button2->Margin = System::Windows::Forms::Padding(2);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(90, 49);
 			this->button2->TabIndex = 2;
@@ -134,7 +134,7 @@ namespace SoftwareIntegrityTester {
 			this->listBox1->FormattingEnabled = true;
 			this->listBox1->Items->AddRange(gcnew cli::array< System::Object^  >(3) { L"Test", L"Test2", L"Test3" });
 			this->listBox1->Location = System::Drawing::Point(9, 34);
-			this->listBox1->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->listBox1->Margin = System::Windows::Forms::Padding(2);
 			this->listBox1->Name = L"listBox1";
 			this->listBox1->Size = System::Drawing::Size(349, 251);
 			this->listBox1->TabIndex = 5;
@@ -162,6 +162,8 @@ namespace SoftwareIntegrityTester {
 			this->MinimumSize = System::Drawing::Size(384, 411);
 			this->Name = L"MainForm";
 			this->Text = L"Software Integrity Tester";
+			this->Load += gcnew System::EventHandler(this, &MainForm::MainForm_Load);
+			this->Shown += gcnew System::EventHandler(this, &MainForm::MainForm_Shown);
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			this->ResumeLayout(false);
@@ -169,8 +171,7 @@ namespace SoftwareIntegrityTester {
 
 		}
 #pragma endregion
-	private: System::Void textBox3_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-	}
+
 private: System::Void listBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 }
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -181,6 +182,12 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 		MessageBox::Show(sr->ReadToEnd());
 		sr->Close();
 	}
+}
+private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
+	
+}
+private: System::Void MainForm_Shown(System::Object^  sender, System::EventArgs^  e) {
+	MessageBox::Show("Version");
 }
 };
 }
