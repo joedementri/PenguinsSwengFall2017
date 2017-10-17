@@ -97,6 +97,7 @@ namespace SoftwareIntegrityTester {
 			this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
 			this->helpToolStripMenuItem->Size = System::Drawing::Size(44, 20);
 			this->helpToolStripMenuItem->Text = L"Help";
+			this->helpToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::helpToolStripMenuItem_Click);
 			// 
 			// button1
 			// 
@@ -188,6 +189,9 @@ private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^ 
 }
 private: System::Void MainForm_Shown(System::Object^  sender, System::EventArgs^  e) {
 	MessageBox::Show("Version");
+}
+private: System::Void helpToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+	MessageBox::Show("Help");
 }
 };
 }
