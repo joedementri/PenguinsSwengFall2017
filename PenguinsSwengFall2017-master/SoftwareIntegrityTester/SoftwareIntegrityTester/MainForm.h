@@ -24,8 +24,7 @@ namespace SoftwareIntegrityTester {
 
 		//stores file content for all files that are opened
 		List<String^>^fileContentList = gcnew List<String^>();
-	private: System::Windows::Forms::Button^  openButton;
-			 //stores full file path of all the files that are opened
+		//stores full file path of all the files that are opened
 		List<String^>^ filepathList = gcnew List<String^>();
 
 	public:
