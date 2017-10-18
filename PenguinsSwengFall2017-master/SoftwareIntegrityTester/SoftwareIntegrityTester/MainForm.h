@@ -61,6 +61,8 @@ namespace SoftwareIntegrityTester {
 
 
 
+
+
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
 
 
@@ -98,30 +100,30 @@ namespace SoftwareIntegrityTester {
 			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
-			this->menuStrip1->Size = System::Drawing::Size(368, 24);
+			this->menuStrip1->Padding = System::Windows::Forms::Padding(8, 4, 0, 4);
+			this->menuStrip1->Size = System::Drawing::Size(716, 44);
 			this->menuStrip1->TabIndex = 0;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
 			// filterToolStripMenuItem
 			// 
 			this->filterToolStripMenuItem->Name = L"filterToolStripMenuItem";
-			this->filterToolStripMenuItem->Size = System::Drawing::Size(45, 20);
+			this->filterToolStripMenuItem->Size = System::Drawing::Size(80, 36);
 			this->filterToolStripMenuItem->Text = L"Filter";
 			// 
 			// helpToolStripMenuItem
 			// 
 			this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
-			this->helpToolStripMenuItem->Size = System::Drawing::Size(44, 20);
+			this->helpToolStripMenuItem->Size = System::Drawing::Size(77, 36);
 			this->helpToolStripMenuItem->Text = L"Help";
 			this->helpToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::helpToolStripMenuItem_Click);
 			// 
 			// openButton
 			// 
-			this->openButton->Location = System::Drawing::Point(9, 307);
-			this->openButton->Margin = System::Windows::Forms::Padding(2);
+			this->openButton->Location = System::Drawing::Point(18, 552);
+			this->openButton->Margin = System::Windows::Forms::Padding(4);
 			this->openButton->Name = L"openButton";
-			this->openButton->Size = System::Drawing::Size(90, 49);
+			this->openButton->Size = System::Drawing::Size(180, 94);
 			this->openButton->TabIndex = 1;
 			this->openButton->Text = L"Open";
 			this->openButton->UseVisualStyleBackColor = true;
@@ -129,10 +131,10 @@ namespace SoftwareIntegrityTester {
 			// 
 			// runButton
 			// 
-			this->runButton->Location = System::Drawing::Point(104, 307);
-			this->runButton->Margin = System::Windows::Forms::Padding(2);
+			this->runButton->Location = System::Drawing::Point(206, 552);
+			this->runButton->Margin = System::Windows::Forms::Padding(4);
 			this->runButton->Name = L"runButton";
-			this->runButton->Size = System::Drawing::Size(90, 49);
+			this->runButton->Size = System::Drawing::Size(180, 94);
 			this->runButton->TabIndex = 2;
 			this->runButton->Text = L"Run";
 			this->runButton->UseVisualStyleBackColor = true;
@@ -140,21 +142,24 @@ namespace SoftwareIntegrityTester {
 			// versionLabel
 			// 
 			this->versionLabel->AutoSize = true;
-			this->versionLabel->Location = System::Drawing::Point(297, 344);
-			this->versionLabel->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+			this->versionLabel->Location = System::Drawing::Point(594, 662);
+			this->versionLabel->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->versionLabel->Name = L"versionLabel";
-			this->versionLabel->Size = System::Drawing::Size(42, 13);
+			this->versionLabel->Size = System::Drawing::Size(85, 25);
 			this->versionLabel->TabIndex = 4;
 			this->versionLabel->Text = L"Version";
 			// 
 			// fileList
 			// 
 			this->fileList->FormattingEnabled = true;
-			this->fileList->Location = System::Drawing::Point(9, 34);
-			this->fileList->Margin = System::Windows::Forms::Padding(2);
+			this->fileList->ItemHeight = 25;
+			this->fileList->Location = System::Drawing::Point(18, 65);
+			this->fileList->Margin = System::Windows::Forms::Padding(4);
+			this->fileList->MultiColumn = true;
 			this->fileList->Name = L"fileList";
-			this->fileList->Size = System::Drawing::Size(349, 251);
+			this->fileList->Size = System::Drawing::Size(685, 479);
 			this->fileList->TabIndex = 5;
+			this->fileList->SelectedIndexChanged += gcnew System::EventHandler(this, &MainForm::fileList_SelectedIndexChanged);
 			// 
 			// openFileDialog1
 			// 
@@ -162,9 +167,9 @@ namespace SoftwareIntegrityTester {
 			// 
 			// MainForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(12, 25);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(368, 372);
+			this->ClientSize = System::Drawing::Size(716, 654);
 			this->Controls->Add(this->fileList);
 			this->Controls->Add(this->versionLabel);
 			this->Controls->Add(this->runButton);
@@ -172,10 +177,10 @@ namespace SoftwareIntegrityTester {
 			this->Controls->Add(this->menuStrip1);
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MainMenuStrip = this->menuStrip1;
-			this->Margin = System::Windows::Forms::Padding(2);
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->MaximizeBox = false;
-			this->MaximumSize = System::Drawing::Size(384, 411);
-			this->MinimumSize = System::Drawing::Size(384, 411);
+			this->MaximumSize = System::Drawing::Size(742, 725);
+			this->MinimumSize = System::Drawing::Size(742, 725);
 			this->Name = L"MainForm";
 			this->Text = L"Software Integrity Tester";
 			this->Shown += gcnew System::EventHandler(this, &MainForm::MainForm_Shown);
@@ -188,14 +193,19 @@ namespace SoftwareIntegrityTester {
 #pragma endregion
 
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+
 	if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 	{
-		System::IO::StreamReader ^ sr = gcnew
-			System::IO::StreamReader(openFileDialog1->FileName);
-		MessageBox::Show(sr->ReadToEnd());
-		sr->Close();
+		
+		fileList->Items->Add(openFileDialog1->SafeFileName);
+		
+		
 	}
+	
+	
+	
 }
+
 private: System::Void MainForm_Shown(System::Object^  sender, System::EventArgs^  e) {
 	MessageBox::Show(VERSION + VERSIONTEXT);
 }
@@ -203,5 +213,7 @@ private: System::Void helpToolStripMenuItem_Click(System::Object^  sender, Syste
 	MessageBox::Show(HELPTEXT);
 }
 
+private: System::Void fileList_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+}
 };
 }
