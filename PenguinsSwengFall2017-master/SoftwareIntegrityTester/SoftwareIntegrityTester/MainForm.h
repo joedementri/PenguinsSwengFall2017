@@ -9,7 +9,7 @@ namespace SoftwareIntegrityTester {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-
+	using namespace System::Collections::Generic;
 
 
 	/// <summary>
@@ -27,7 +27,9 @@ namespace SoftwareIntegrityTester {
 		//the text that is displayed within the help pop-up window 
 		String^ HELPTEXT = "\nPut Help Text Here";
 
-
+		//stores file content for all files that are opened
+		List<String^>^fileContentList = gcnew List<String^>();
+		
 	public:
 		MainForm(void)
 		{
@@ -223,8 +225,12 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 	{
 		
 		fileList->Items->Add(openFileDialog1->SafeFileName);
-		
-		
+		String^ temp = "";
+		System::IO::StreamReader^ sr = gcnew
+			System::IO::StreamReader(openFileDialog1->FileName);
+		temp = sr->ReadToEnd();
+		fileContentList->Add(temp);
+		sr->Close();
 	}
 	
 	
@@ -245,6 +251,7 @@ private: System::Void removeSelectedFilesToolStripMenuItem_Click(System::Object^
 
 	for (int i = fileList->SelectedIndices->Count - 1; i >= 0; i--) {
 		fileList->Items->RemoveAt(fileList->SelectedIndices[i]);
+		fileContentList->RemoveAt(i);
 	}
 }
 };
