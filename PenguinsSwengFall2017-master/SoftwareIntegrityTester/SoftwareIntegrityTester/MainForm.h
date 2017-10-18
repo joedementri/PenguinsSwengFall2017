@@ -14,6 +14,21 @@ namespace SoftwareIntegrityTester {
 	using namespace System::Windows::Forms;
 	using namespace System::Collections::Generic;
 
+	public enum class Priority { Low, Normal, Critical };
+	public enum class Risk { Low, Med, High };
+
+	 ref struct Weakness {
+		String^ name;
+		Priority priority;
+		Risk risk;
+		String^ solution;
+		Weakness(String^ n, Priority p, Risk r, String^ s) :
+			name(n), priority(p), risk(r), solution(s) {
+		}
+		String^ toString() {
+			return name +"\nPriority:"+ priority.ToString() + "\nRisk: " + risk.ToString() + "\nSolution:\n" + solution +"\n";
+		}
+	};
 	/// <summary>
 	/// Summary for MainForm
 	/// </summary>
@@ -27,6 +42,8 @@ namespace SoftwareIntegrityTester {
 		//stores full file path of all the files that are opened
 		List<String^>^ filepathList = gcnew List<String^>();
 
+		List<Weakness^>^ weaknessList = gcnew List<Weakness^>();
+		
 	public:
 		MainForm(void)
 		{
