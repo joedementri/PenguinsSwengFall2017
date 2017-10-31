@@ -2,6 +2,7 @@
 
 #include <msclr\marshal_cppstd.h>
 #include "Weakness.h"
+#include "UserSettings.h"
 
 #define VERSION "0.1.0"
 #define VERSIONTEXT "Put Version Text Here"
@@ -29,6 +30,7 @@ namespace SoftwareIntegrityTester {
 		List<String^>^ filepathList = gcnew List<String^>();
 	private: System::Windows::Forms::ToolStripMenuItem^  aboutToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  filterByWeaknessToolStripMenuItem;
+	private: System::Windows::Forms::Button^  button1;
 
 		List<Weakness^>^ weaknessList = gcnew List<Weakness^>();
 		
@@ -108,14 +110,20 @@ namespace SoftwareIntegrityTester {
 			MessageBox::Show(VERSION + "\n" + VERSIONTEXT);
 	}
 
-	///When Help -> Instructions is clicked:
+	//When Help -> Instructions is clicked:
 	private: System::Void aboutToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 		MessageBox::Show(HELPTEXT, "Software Integrity Tester Instructions");
 	}
 
-	///When Filter -> Filter by weakness... is clicked:
+	//When Filter -> Filter by weakness... is clicked:
 	private: System::Void filterByWeaknessToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 		MessageBox::Show("Filter options go here.", "Filter by Weakness Options"); ///MessageBox is placeholder until functionality added.
+	}
+
+	//When Settings button is clicked:
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+		UserSettings^ us = gcnew UserSettings();
+		us->Show();
 	}
 
 
@@ -142,6 +150,7 @@ namespace SoftwareIntegrityTester {
 				 System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
 				 this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 				 this->filterToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+				 this->filterByWeaknessToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				 this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				 this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				 this->openButton = (gcnew System::Windows::Forms::Button());
@@ -151,7 +160,7 @@ namespace SoftwareIntegrityTester {
 				 this->contextMenuStrip1 = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
 				 this->removeSelectedFilesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				 this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
-				 this->filterByWeaknessToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+				 this->button1 = (gcnew System::Windows::Forms::Button());
 				 this->menuStrip1->SuspendLayout();
 				 this->contextMenuStrip1->SuspendLayout();
 				 this->SuspendLayout();
@@ -176,6 +185,13 @@ namespace SoftwareIntegrityTester {
 				 this->filterToolStripMenuItem->Name = L"filterToolStripMenuItem";
 				 this->filterToolStripMenuItem->Size = System::Drawing::Size(54, 24);
 				 this->filterToolStripMenuItem->Text = L"Filter";
+				 // 
+				 // filterByWeaknessToolStripMenuItem
+				 // 
+				 this->filterByWeaknessToolStripMenuItem->Name = L"filterByWeaknessToolStripMenuItem";
+				 this->filterByWeaknessToolStripMenuItem->Size = System::Drawing::Size(212, 26);
+				 this->filterByWeaknessToolStripMenuItem->Text = L"Filter by weakness...";
+				 this->filterByWeaknessToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::filterByWeaknessToolStripMenuItem_Click);
 				 // 
 				 // helpToolStripMenuItem
 				 // 
@@ -253,18 +269,22 @@ namespace SoftwareIntegrityTester {
 				 // 
 				 this->openFileDialog1->FileName = L"openFileDialog1";
 				 // 
-				 // filterByWeaknessToolStripMenuItem
+				 // button1
 				 // 
-				 this->filterByWeaknessToolStripMenuItem->Name = L"filterByWeaknessToolStripMenuItem";
-				 this->filterByWeaknessToolStripMenuItem->Size = System::Drawing::Size(212, 26);
-				 this->filterByWeaknessToolStripMenuItem->Text = L"Filter by weakness...";
-				 this->filterByWeaknessToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::filterByWeaknessToolStripMenuItem_Click);
+				 this->button1->Location = System::Drawing::Point(361, 353);
+				 this->button1->Name = L"button1";
+				 this->button1->Size = System::Drawing::Size(108, 60);
+				 this->button1->TabIndex = 6;
+				 this->button1->Text = L"Settings";
+				 this->button1->UseVisualStyleBackColor = true;
+				 this->button1->Click += gcnew System::EventHandler(this, &MainForm::button1_Click);
 				 // 
 				 // MainForm
 				 // 
 				 this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 				 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 				 this->ClientSize = System::Drawing::Size(481, 430);
+				 this->Controls->Add(this->button1);
 				 this->Controls->Add(this->fileList);
 				 this->Controls->Add(this->versionLabel);
 				 this->Controls->Add(this->runButton);
@@ -287,6 +307,7 @@ namespace SoftwareIntegrityTester {
 
 			 }
 #pragma endregion
+
 
 };
 }
