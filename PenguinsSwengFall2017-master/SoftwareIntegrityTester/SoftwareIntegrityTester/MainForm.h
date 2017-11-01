@@ -31,11 +31,13 @@ namespace SoftwareIntegrityTester {
 		List<String^>^ filepathList = gcnew List<String^>();
 	private: System::Windows::Forms::ToolStripMenuItem^  aboutToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  filterByWeaknessToolStripMenuItem;
-	private: System::Windows::Forms::Button^  button1;
+
 
 		List<Weakness^>^ weaknessList = gcnew List<Weakness^>();
-
-			 UserSettings^ userSettingsUI = gcnew UserSettings();
+		UserSettings^ userSettingsUI = gcnew UserSettings();
+		//Creates folder for user settings along with output desination file
+		String^ settingsPath = Environment::GetFolderPath(Environment::SpecialFolder::Desktop) + "/" + "settings";
+		String^ location = settingsPath + "/" + "location.txt";
 	public:
 		MainForm(void)
 		{
@@ -108,17 +110,33 @@ namespace SoftwareIntegrityTester {
 	}
 	private: System::Void runButton_Click(System::Object^  sender, System::EventArgs^  e) {
 		if (fileList->Items->Count == 0)
-			 {
+		{
 			MessageBox::Show("Select Files to Run Test!");
-			}
+		}
 		else {
-				String^ outputPath = "";
-				String^ outputName = System::String::Format("{0:yyyy - MM - dd_hh - mm - ss - tt}", System::DateTime::Now) + ".txt";
-				outputPath = UserSettings::path + "/" + outputName;
-				if (!System::IO::File::Exists(outputPath)) {
-				System::IO::File::CreateText(outputPath);				
-				}		
-			}		
+			String^ outputName = System::String::Format("{0:yyyy - MM - dd_hh - mm - ss - tt}", System::DateTime::Now) + ".txt";
+			String^ outputPath = UserSettings::path + "/" + outputName;
+			if (!System::IO::File::Exists(outputPath)) {
+				System::IO::File::CreateText(outputPath)->Close();
+			}
+			System::IO::StreamWriter^ sw = gcnew System::IO::StreamWriter(outputPath);
+			sw->WriteLine("Software Integrity Tester Version " + VERSION);
+			sw->WriteLine("Files Scanned: ");
+			for (int i = 0; i < fileList->Items->Count; i++) {
+				sw->WriteLine(fileList->Items[i]->ToString() + "  ");
+			}
+			sw->WriteLine(SEPERATOR);
+			sw->WriteLine("Weaknesses Searched For: ");
+			for (int i = 0; i < weaknessList->Count; i++) 
+			{
+				sw->WriteLine(weaknessList[i]->ToString());
+			}
+			sw->WriteLine(SEPERATOR);
+			sw->Close();
+			//we can throw this code in another method called generate report or something and have the actual scan in here, or just have the scan run after and 
+			//append the vulnerabilities onto the file.
+			//also we need the actual scan before we can generate a report on what has weaknesses and what doesn't
+		}
 	}
 	public: bool isDisplayPathChecked = false; //Boolean to check if check box in settings is checked!
 
@@ -161,9 +179,33 @@ namespace SoftwareIntegrityTester {
 	}
 
 	//When Settings button is clicked:
-	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+	private: System::Void settingsBtn_Click(System::Object^  sender, System::EventArgs^  e) {
 		UserSettings^ us = gcnew UserSettings();
 		us->Show();
+	}
+
+	private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
+		if (!System::IO::Directory::Exists(settingsPath)) {
+			System::IO::Directory::CreateDirectory(settingsPath); //before program opens, creates a user settings directory on desktop
+		}
+		if (!System::IO::File::Exists(location))
+		{
+			System::IO::File::CreateText(location)->Close(); //creates file for output location if there was no file beforehand
+		}
+		else {
+			System::IO::StreamReader^ sr = gcnew System::IO::StreamReader(location);
+			UserSettings::path = sr->ReadLine(); //sets the path to the last saved path if there was a file previously
+			sr->Close();
+		}
+		//still need file for the filters, what was checked and unchecked before a user last exited
+		//same process, just create another file, still have to figure out how to check what was checked and then write it into a file
+	}
+
+	private: System::Void MainForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e) {
+		System::IO::StreamWriter^ sw = gcnew System::IO::StreamWriter(location, false);
+		sw->Write(UserSettings::path); //overwrites the location file so that whatever outputpath was last used gets saved in the file
+		sw->Close();
+		//again, still need filter settings to be written/saved
 	}
 
 
@@ -178,6 +220,7 @@ namespace SoftwareIntegrityTester {
 	private: System::Windows::Forms::ListBox^  fileList;
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
 	private: System::ComponentModel::IContainer^  components;
+	private: System::Windows::Forms::Button^  settingsBtn;
 
 #pragma region Windows Form Designer generated code
 			 /// <summary>
@@ -200,7 +243,7 @@ namespace SoftwareIntegrityTester {
 				 this->contextMenuStrip1 = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
 				 this->removeSelectedFilesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				 this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
-				 this->button1 = (gcnew System::Windows::Forms::Button());
+				 this->settingsBtn = (gcnew System::Windows::Forms::Button());
 				 this->menuStrip1->SuspendLayout();
 				 this->contextMenuStrip1->SuspendLayout();
 				 this->SuspendLayout();
@@ -267,6 +310,7 @@ namespace SoftwareIntegrityTester {
 				 this->runButton->TabIndex = 2;
 				 this->runButton->Text = L"Run";
 				 this->runButton->UseVisualStyleBackColor = true;
+				 this->runButton->Click += gcnew System::EventHandler(this, &MainForm::runButton_Click);
 				 // 
 				 // versionLabel
 				 // 
@@ -310,22 +354,22 @@ namespace SoftwareIntegrityTester {
 				 // 
 				 this->openFileDialog1->FileName = L"openFileDialog1";
 				 // 
-				 // button1
+				 // settingsBtn
 				 // 
-				 this->button1->Location = System::Drawing::Point(261, 281);
-				 this->button1->Name = L"button1";
-				 this->button1->Size = System::Drawing::Size(92, 60);
-				 this->button1->TabIndex = 6;
-				 this->button1->Text = L"Settings";
-				 this->button1->UseVisualStyleBackColor = true;
-				 this->button1->Click += gcnew System::EventHandler(this, &MainForm::button1_Click);
+				 this->settingsBtn->Location = System::Drawing::Point(264, 287);
+				 this->settingsBtn->Name = L"settingsBtn";
+				 this->settingsBtn->Size = System::Drawing::Size(89, 49);
+				 this->settingsBtn->TabIndex = 7;
+				 this->settingsBtn->Text = L"Settings";
+				 this->settingsBtn->UseVisualStyleBackColor = true;
+				 this->settingsBtn->Click += gcnew System::EventHandler(this, &MainForm::settingsBtn_Click);
 				 // 
 				 // MainForm
 				 // 
 				 this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 				 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 				 this->ClientSize = System::Drawing::Size(362, 356);
-				 this->Controls->Add(this->button1);
+				 this->Controls->Add(this->settingsBtn);
 				 this->Controls->Add(this->fileList);
 				 this->Controls->Add(this->versionLabel);
 				 this->Controls->Add(this->runButton);
@@ -339,6 +383,8 @@ namespace SoftwareIntegrityTester {
 				 this->MinimumSize = System::Drawing::Size(378, 395);
 				 this->Name = L"MainForm";
 				 this->Text = L"Software Integrity Tester";
+				 this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &MainForm::MainForm_FormClosed);
+				 this->Load += gcnew System::EventHandler(this, &MainForm::MainForm_Load);
 				 this->Shown += gcnew System::EventHandler(this, &MainForm::MainForm_Shown);
 				 this->menuStrip1->ResumeLayout(false);
 				 this->menuStrip1->PerformLayout();
@@ -348,7 +394,5 @@ namespace SoftwareIntegrityTester {
 
 			 }
 #pragma endregion
-
-
 };
 }
