@@ -28,6 +28,8 @@ Class SoftwareIntegrityTester.UserSettings: AutoLayout, AnsiClass, Class, Public
     Boolean useFullFilePath 'get ' : 
   Methods:
     get_useFullFilePath(): PrivateScope, Public, HideBySig, SpecialName
+    getPath(): PrivateScope, Public, HideBySig
+    setPath(String): PrivateScope, Public, HideBySig
 Class SoftwareIntegrityTester.MainForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

@@ -17,6 +17,7 @@ namespace SoftwareIntegrityTester {
 	{
 	
 		String^ tempPath = "";
+
 	public:
 		UserSettings(void)
 		{
@@ -57,6 +58,17 @@ namespace SoftwareIntegrityTester {
 
 	}
 
+	public: String^ getPath()
+	{
+			return path;
+	}
+
+	public: void setPath(String^ newName)
+	{
+		path = newName;
+	}
+			
+
 	private: System::Void outputDesinationBtn_Click(System::Object^  sender, System::EventArgs^  e) {
 		FolderBrowserDialog^ folderBrowserDialog1 = gcnew FolderBrowserDialog();
 		folderBrowserDialog1->RootFolder = Environment::SpecialFolder::Desktop;
@@ -74,18 +86,6 @@ namespace SoftwareIntegrityTester {
 		path = tempPath;
 	}
 
-	public: property bool useFullFilePath
-	{
-		bool get()
-		{
-			if (checkBox1->Checked) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-	}
 
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::Button^  saveBtn;
@@ -95,13 +95,6 @@ namespace SoftwareIntegrityTester {
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::CheckBox^  checkBox1;
 
-	public:
-
-	public:
-
-	public:
-
-	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>

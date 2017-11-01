@@ -115,7 +115,7 @@ namespace SoftwareIntegrityTester {
 		}
 		else {
 			String^ outputName = System::String::Format("{0:yyyy - MM - dd_hh - mm - ss - tt}", System::DateTime::Now) + ".txt";
-			String^ outputPath = UserSettings::path + "/" + outputName;
+			String^ outputPath = userSettingsUI->getPath() + "/" + outputName;
 			if (!System::IO::File::Exists(outputPath)) {
 				System::IO::File::CreateText(outputPath)->Close();
 			}
@@ -180,8 +180,8 @@ namespace SoftwareIntegrityTester {
 
 	//When Settings button is clicked:
 	private: System::Void settingsBtn_Click(System::Object^  sender, System::EventArgs^  e) {
-		UserSettings^ us = gcnew UserSettings();
-		us->Show();
+		//UserSettings^ us = gcnew UserSettings();
+		userSettingsUI->Show();
 	}
 
 	private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
@@ -194,7 +194,7 @@ namespace SoftwareIntegrityTester {
 		}
 		else {
 			System::IO::StreamReader^ sr = gcnew System::IO::StreamReader(location);
-			UserSettings::path = sr->ReadLine(); //sets the path to the last saved path if there was a file previously
+			userSettingsUI->setPath(sr->ReadLine()); //sets the path to the last saved path if there was a file previously
 			sr->Close();
 		}
 		//still need file for the filters, what was checked and unchecked before a user last exited
@@ -203,7 +203,7 @@ namespace SoftwareIntegrityTester {
 
 	private: System::Void MainForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e) {
 		System::IO::StreamWriter^ sw = gcnew System::IO::StreamWriter(location, false);
-		sw->Write(UserSettings::path); //overwrites the location file so that whatever outputpath was last used gets saved in the file
+		sw->Write(userSettingsUI->getPath()); //overwrites the location file so that whatever outputpath was last used gets saved in the file
 		sw->Close();
 		//again, still need filter settings to be written/saved
 	}

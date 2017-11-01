@@ -1,4 +1,4 @@
 ﻿  MainForm.cpp
-c:\users\ty\desktop\gith\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\FilterSettings.h(20): warning C4677: 'FilterSettings': signature of non-private member contains assembly private type 'Weakness'
-  c:\users\ty\desktop\gith\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\Weakness.h(5): note: see declaration of 'Weakness'
-  SoftwareIntegrityTester.vcxproj -> C:\Users\Ty\Desktop\gith\PenguinsSwengFall2017-master\PenguinsSwengFall2017-master\SoftwareIntegrityTester\x64\Debug\SoftwareIntegrityTester.exe
+c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\FilterSettings.h(20): warning C4677: 'FilterSettings': signature of non-private member contains assembly private type 'Weakness'
+  c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\Weakness.h(5): note: see declaration of 'Weakness'
+  SoftwareIntegrityTester.vcxproj -> C:\Users\Joe Dementri\Downloads\PenguinsSwengFall2017-master\PenguinsSwengFall2017-master\SoftwareIntegrityTester\x64\Debug\SoftwareIntegrityTester.exe
