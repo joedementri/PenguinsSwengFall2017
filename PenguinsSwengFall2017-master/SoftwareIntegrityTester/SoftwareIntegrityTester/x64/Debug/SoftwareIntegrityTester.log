@@ -1,5 +1,5 @@
 ﻿  MainForm.cpp
-MainForm.cpp(7): warning C4829: Possibly incorrect parameters to function main. Consider 'int main(Platform::Array<Platform::String^>^ argv)'
+  UserSettings.cpp
   Weakness.cpp
   Generating Code...
-  SoftwareIntegrityTester.vcxproj -> C:\Users\Ty\Desktop\PenguinsSwengFall2017-master\PenguinsSwengFall2017-master\SoftwareIntegrityTester\x64\Debug\SoftwareIntegrityTester.exe
+  SoftwareIntegrityTester.vcxproj -> C:\Users\BG\Desktop\Upload to Github!\PenguinsSwengFall2017-master\SoftwareIntegrityTester\x64\Debug\SoftwareIntegrityTester.exe

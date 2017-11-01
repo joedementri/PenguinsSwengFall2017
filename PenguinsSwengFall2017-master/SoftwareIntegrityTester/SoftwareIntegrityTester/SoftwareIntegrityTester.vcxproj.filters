@@ -21,6 +21,9 @@
     <ClCompile Include="Weakness.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UserSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
@@ -29,9 +32,15 @@
     <ClInclude Include="Weakness.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UserSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserSettings.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>

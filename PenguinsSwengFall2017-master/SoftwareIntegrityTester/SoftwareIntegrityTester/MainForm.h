@@ -2,10 +2,11 @@
 
 #include <msclr\marshal_cppstd.h>
 #include "Weakness.h"
+#include "UserSettings.h"
 
 #define VERSION "0.1.0"
 #define VERSIONTEXT "Put Version Text Here"
-#define HELPTEXT "Put Help Text Here"
+#define HELPTEXT "To run the integrity checker:\n\n1) Click Open, then browse and select the file(s) to be checked.\n\n2) If applicable, click Filter by Weakness in the Filter menu and choose which weaknesses to filter.\n\n3) Click Run."
 #define DEBUG true
 #define SEPERATOR "---------------------------------\n"
 
@@ -27,6 +28,9 @@ namespace SoftwareIntegrityTester {
 		List<String^>^fileContentList = gcnew List<String^>();
 		//stores full file path of all the files that are opened
 		List<String^>^ filepathList = gcnew List<String^>();
+	private: System::Windows::Forms::ToolStripMenuItem^  aboutToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  filterByWeaknessToolStripMenuItem;
+	private: System::Windows::Forms::Button^  button1;
 
 		List<Weakness^>^ weaknessList = gcnew List<Weakness^>();
 		
@@ -98,6 +102,21 @@ namespace SoftwareIntegrityTester {
 		}
 	}
 
+	private: System::Void runButton_Click(System::Object^  sender, System::EventArgs^  e) {
+		if (fileList->Items->Count == 0)
+		{
+			MessageBox::Show("Select Files to Run Test!");
+		}
+		else {
+			String^ outputPath = "";
+			String^ outputName = System::String::Format("{0:yyyy - MM - dd_hh - mm - ss - tt}", System::DateTime::Now) + ".txt";
+			outputPath = UserSettings::path + "/" + outputName;
+			if (!System::IO::File::Exists(outputPath)) {
+				System::IO::File::CreateText(outputPath);
+			}
+		}
+	}
+
 	private: System::Void filterToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
 
@@ -105,10 +124,24 @@ namespace SoftwareIntegrityTester {
 		if (versionOnStart)
 			MessageBox::Show(VERSION + "\n" + VERSIONTEXT);
 	}
-	private: System::Void helpToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-		MessageBox::Show(HELPTEXT);
+
+	//When Help -> Instructions is clicked:
+	private: System::Void aboutToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+		MessageBox::Show(HELPTEXT, "Software Integrity Tester Instructions");
 	}
 
+	//When Filter -> Filter by weakness... is clicked:
+	private: System::Void filterByWeaknessToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+		MessageBox::Show("Filter options go here.", "Filter by Weakness Options"); ///MessageBox is placeholder until functionality added.
+	}
+
+	//When Settings button is clicked:
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+		UserSettings^ us = gcnew UserSettings();
+		us->Show();
+	}
+
+	public: bool isDisplayPathChecked = false; //Boolean to check if check box in settings is checked!
 
 	private: System::Windows::Forms::ContextMenuStrip^  contextMenuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^  removeSelectedFilesToolStripMenuItem;
@@ -133,7 +166,9 @@ namespace SoftwareIntegrityTester {
 				 System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
 				 this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 				 this->filterToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+				 this->filterByWeaknessToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				 this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+				 this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				 this->openButton = (gcnew System::Windows::Forms::Button());
 				 this->runButton = (gcnew System::Windows::Forms::Button());
 				 this->versionLabel = (gcnew System::Windows::Forms::Label());
@@ -141,6 +176,7 @@ namespace SoftwareIntegrityTester {
 				 this->contextMenuStrip1 = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
 				 this->removeSelectedFilesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				 this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
+				 this->button1 = (gcnew System::Windows::Forms::Button());
 				 this->menuStrip1->SuspendLayout();
 				 this->contextMenuStrip1->SuspendLayout();
 				 this->SuspendLayout();
@@ -155,27 +191,42 @@ namespace SoftwareIntegrityTester {
 				 this->menuStrip1->Location = System::Drawing::Point(0, 0);
 				 this->menuStrip1->Name = L"menuStrip1";
 				 this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
-				 this->menuStrip1->Size = System::Drawing::Size(363, 24);
+				 this->menuStrip1->Size = System::Drawing::Size(362, 24);
 				 this->menuStrip1->TabIndex = 0;
 				 this->menuStrip1->Text = L"menuStrip1";
 				 // 
 				 // filterToolStripMenuItem
 				 // 
+				 this->filterToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->filterByWeaknessToolStripMenuItem });
 				 this->filterToolStripMenuItem->Name = L"filterToolStripMenuItem";
 				 this->filterToolStripMenuItem->Size = System::Drawing::Size(45, 20);
 				 this->filterToolStripMenuItem->Text = L"Filter";
 				 // 
+				 // filterByWeaknessToolStripMenuItem
+				 // 
+				 this->filterByWeaknessToolStripMenuItem->Name = L"filterByWeaknessToolStripMenuItem";
+				 this->filterByWeaknessToolStripMenuItem->Size = System::Drawing::Size(178, 22);
+				 this->filterByWeaknessToolStripMenuItem->Text = L"Filter by weakness...";
+				 this->filterByWeaknessToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::filterByWeaknessToolStripMenuItem_Click);
+				 // 
 				 // helpToolStripMenuItem
 				 // 
+				 this->helpToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->aboutToolStripMenuItem });
 				 this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
 				 this->helpToolStripMenuItem->Size = System::Drawing::Size(44, 20);
 				 this->helpToolStripMenuItem->Text = L"Help";
-				 this->helpToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::helpToolStripMenuItem_Click);
+				 // 
+				 // aboutToolStripMenuItem
+				 // 
+				 this->aboutToolStripMenuItem->Name = L"aboutToolStripMenuItem";
+				 this->aboutToolStripMenuItem->Size = System::Drawing::Size(143, 22);
+				 this->aboutToolStripMenuItem->Text = L"How to use...";
+				 this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::aboutToolStripMenuItem_Click);
 				 // 
 				 // openButton
 				 // 
 				 this->openButton->Location = System::Drawing::Point(9, 287);
-				 this->openButton->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+				 this->openButton->Margin = System::Windows::Forms::Padding(2);
 				 this->openButton->Name = L"openButton";
 				 this->openButton->Size = System::Drawing::Size(90, 49);
 				 this->openButton->TabIndex = 1;
@@ -186,12 +237,13 @@ namespace SoftwareIntegrityTester {
 				 // runButton
 				 // 
 				 this->runButton->Location = System::Drawing::Point(103, 287);
-				 this->runButton->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+				 this->runButton->Margin = System::Windows::Forms::Padding(2);
 				 this->runButton->Name = L"runButton";
 				 this->runButton->Size = System::Drawing::Size(90, 49);
 				 this->runButton->TabIndex = 2;
 				 this->runButton->Text = L"Run";
 				 this->runButton->UseVisualStyleBackColor = true;
+				 this->runButton->Click += gcnew System::EventHandler(this, &MainForm::runButton_Click);
 				 // 
 				 // versionLabel
 				 // 
@@ -211,10 +263,10 @@ namespace SoftwareIntegrityTester {
 				 this->fileList->FormattingEnabled = true;
 				 this->fileList->ItemHeight = 29;
 				 this->fileList->Location = System::Drawing::Point(9, 34);
-				 this->fileList->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+				 this->fileList->Margin = System::Windows::Forms::Padding(2);
 				 this->fileList->Name = L"fileList";
 				 this->fileList->SelectionMode = System::Windows::Forms::SelectionMode::MultiExtended;
-				 this->fileList->Size = System::Drawing::Size(344, 236);
+				 this->fileList->Size = System::Drawing::Size(344, 207);
 				 this->fileList->TabIndex = 5;
 				 // 
 				 // contextMenuStrip1
@@ -235,11 +287,23 @@ namespace SoftwareIntegrityTester {
 				 // 
 				 this->openFileDialog1->FileName = L"openFileDialog1";
 				 // 
+				 // button1
+				 // 
+				 this->button1->Location = System::Drawing::Point(271, 287);
+				 this->button1->Margin = System::Windows::Forms::Padding(2);
+				 this->button1->Name = L"button1";
+				 this->button1->Size = System::Drawing::Size(81, 49);
+				 this->button1->TabIndex = 6;
+				 this->button1->Text = L"Settings";
+				 this->button1->UseVisualStyleBackColor = true;
+				 this->button1->Click += gcnew System::EventHandler(this, &MainForm::button1_Click);
+				 // 
 				 // MainForm
 				 // 
 				 this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 				 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-				 this->ClientSize = System::Drawing::Size(363, 357);
+				 this->ClientSize = System::Drawing::Size(362, 356);
+				 this->Controls->Add(this->button1);
 				 this->Controls->Add(this->fileList);
 				 this->Controls->Add(this->versionLabel);
 				 this->Controls->Add(this->runButton);
@@ -247,10 +311,10 @@ namespace SoftwareIntegrityTester {
 				 this->Controls->Add(this->menuStrip1);
 				 this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 				 this->MainMenuStrip = this->menuStrip1;
-				 this->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+				 this->Margin = System::Windows::Forms::Padding(2);
 				 this->MaximizeBox = false;
-				 this->MaximumSize = System::Drawing::Size(379, 396);
-				 this->MinimumSize = System::Drawing::Size(379, 396);
+				 this->MaximumSize = System::Drawing::Size(378, 395);
+				 this->MinimumSize = System::Drawing::Size(378, 395);
 				 this->Name = L"MainForm";
 				 this->Text = L"Software Integrity Tester";
 				 this->Shown += gcnew System::EventHandler(this, &MainForm::MainForm_Shown);
@@ -262,6 +326,5 @@ namespace SoftwareIntegrityTester {
 
 			 }
 #pragma endregion
-
 };
 }
