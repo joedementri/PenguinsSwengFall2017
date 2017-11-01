@@ -35,12 +35,28 @@ namespace SoftwareIntegrityTester {
 			if (components)
 			{
 				delete components;
+
 			}
 		}
 
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 		UserSettings::Visible = false;
 	}
+
+	public: property bool useFullFilePath 
+	{
+		bool get()
+		{
+			if (checkBox1->Checked) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+
+	}
+
 	private: System::Void outputDesinationBtn_Click(System::Object^  sender, System::EventArgs^  e) {
 		FolderBrowserDialog^ folderBrowserDialog1 = gcnew FolderBrowserDialog();
 		folderBrowserDialog1->RootFolder = Environment::SpecialFolder::Desktop;
@@ -100,10 +116,10 @@ namespace SoftwareIntegrityTester {
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(391, 391);
-			this->button1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->button1->Location = System::Drawing::Point(586, 611);
+			this->button1->Margin = System::Windows::Forms::Padding(4, 3, 4, 3);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(159, 65);
+			this->button1->Size = System::Drawing::Size(238, 102);
 			this->button1->TabIndex = 0;
 			this->button1->Text = L"Close";
 			this->button1->UseVisualStyleBackColor = true;
@@ -112,10 +128,10 @@ namespace SoftwareIntegrityTester {
 			// saveBtn
 			// 
 			this->saveBtn->AccessibleDescription = L"";
-			this->saveBtn->Location = System::Drawing::Point(225, 391);
-			this->saveBtn->Margin = System::Windows::Forms::Padding(4);
+			this->saveBtn->Location = System::Drawing::Point(338, 611);
+			this->saveBtn->Margin = System::Windows::Forms::Padding(6, 6, 6, 6);
 			this->saveBtn->Name = L"saveBtn";
-			this->saveBtn->Size = System::Drawing::Size(159, 65);
+			this->saveBtn->Size = System::Drawing::Size(238, 102);
 			this->saveBtn->TabIndex = 1;
 			this->saveBtn->Text = L"Save";
 			this->saveBtn->UseVisualStyleBackColor = true;
@@ -123,10 +139,10 @@ namespace SoftwareIntegrityTester {
 			// 
 			// outputDesinationBtn
 			// 
-			this->outputDesinationBtn->Location = System::Drawing::Point(269, 31);
-			this->outputDesinationBtn->Margin = System::Windows::Forms::Padding(4);
+			this->outputDesinationBtn->Location = System::Drawing::Point(404, 48);
+			this->outputDesinationBtn->Margin = System::Windows::Forms::Padding(6, 6, 6, 6);
 			this->outputDesinationBtn->Name = L"outputDesinationBtn";
-			this->outputDesinationBtn->Size = System::Drawing::Size(236, 27);
+			this->outputDesinationBtn->Size = System::Drawing::Size(354, 42);
 			this->outputDesinationBtn->TabIndex = 3;
 			this->outputDesinationBtn->Text = L"Select Output Directory";
 			this->outputDesinationBtn->UseVisualStyleBackColor = true;
@@ -134,44 +150,47 @@ namespace SoftwareIntegrityTester {
 			// 
 			// displayPath
 			// 
-			this->displayPath->Location = System::Drawing::Point(167, 66);
-			this->displayPath->Margin = System::Windows::Forms::Padding(4);
+			this->displayPath->Location = System::Drawing::Point(250, 103);
+			this->displayPath->Margin = System::Windows::Forms::Padding(6, 6, 6, 6);
 			this->displayPath->Name = L"displayPath";
 			this->displayPath->ReadOnly = true;
-			this->displayPath->Size = System::Drawing::Size(443, 22);
+			this->displayPath->Size = System::Drawing::Size(662, 31);
 			this->displayPath->TabIndex = 5;
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(31, 66);
+			this->label1->Location = System::Drawing::Point(46, 103);
+			this->label1->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(116, 17);
+			this->label1->Size = System::Drawing::Size(174, 25);
 			this->label1->TabIndex = 6;
 			this->label1->Text = L"Output Directory:";
 			// 
 			// checkBox1
 			// 
 			this->checkBox1->AutoSize = true;
-			this->checkBox1->Location = System::Drawing::Point(167, 124);
+			this->checkBox1->Location = System::Drawing::Point(250, 194);
+			this->checkBox1->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->checkBox1->Name = L"checkBox1";
-			this->checkBox1->Size = System::Drawing::Size(219, 21);
+			this->checkBox1->Size = System::Drawing::Size(335, 29);
 			this->checkBox1->TabIndex = 7;
 			this->checkBox1->Text = L"Display Full File Path(s) in List";
 			this->checkBox1->UseVisualStyleBackColor = true;
+			this->checkBox1->CheckedChanged += gcnew System::EventHandler(this, &UserSettings::checkBox1_CheckedChanged);
 			// 
 			// UserSettings
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
+			this->AutoScaleDimensions = System::Drawing::SizeF(12, 25);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(773, 470);
+			this->ClientSize = System::Drawing::Size(1160, 734);
 			this->Controls->Add(this->checkBox1);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->displayPath);
 			this->Controls->Add(this->outputDesinationBtn);
 			this->Controls->Add(this->saveBtn);
 			this->Controls->Add(this->button1);
-			this->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->Margin = System::Windows::Forms::Padding(4, 3, 4, 3);
 			this->Name = L"UserSettings";
 			this->Text = L"User Settings";
 			this->ResumeLayout(false);
@@ -180,5 +199,9 @@ namespace SoftwareIntegrityTester {
 		}
 #pragma endregion
 	
+private: System::Void checkBox1_CheckedChanged(System::Object^  sender, System::EventArgs^  e)
+{
+	
+}
 };
 }
