@@ -22,6 +22,14 @@ Class SoftwareIntegrityTester.FilterSettings: AutoLayout, AnsiClass, Class, Publ
 Class SoftwareIntegrityTester.UserSettings: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    System.String path : Public, Static
+  Properties:
+    Boolean useFullFilePath 'get ' : 
+  Methods:
+    get_useFullFilePath(): PrivateScope, Public, HideBySig, SpecialName
 Class SoftwareIntegrityTester.MainForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Boolean isDisplayPathChecked : Public
