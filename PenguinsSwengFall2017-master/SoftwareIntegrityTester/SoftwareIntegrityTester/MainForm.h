@@ -1,4 +1,14 @@
 #pragma once
+/******************************************
+/* File:  MainForm.h
+/*
+/* Description:  The Main form will be the heart of the program. It will contain a menu bar, with options to set filters
+/*				 and see a help box. It will have a settings button that opens the settings form, an open button which allows files
+/*				 to be selected and placed in the fileList to be analyzed, and a run button which starts the S.I.T.
+/*
+/* Programmer:  Brandon Gordon, James Meredith, Cole Christensen, Tyler Ligenzowski, Joe Dementri
+/* 14 OCT 2017  MAINFORM
+*******************************************/
 
 #include <msclr\marshal_cppstd.h>
 #include "Weakness.h"
@@ -27,17 +37,20 @@ namespace SoftwareIntegrityTester {
 
 		//stores file content for all files that are opened
 		List<String^>^fileContentList = gcnew List<String^>();
+
 		//stores full file path of all the files that are opened
 		List<String^>^ filepathList = gcnew List<String^>();
-	private: System::Windows::Forms::ToolStripMenuItem^  aboutToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  filterByWeaknessToolStripMenuItem;
 
+		private: System::Windows::Forms::ToolStripMenuItem^  aboutToolStripMenuItem;
+		private: System::Windows::Forms::ToolStripMenuItem^  filterByWeaknessToolStripMenuItem;
 
 		List<Weakness^>^ weaknessList = gcnew List<Weakness^>();
 		UserSettings^ userSettingsUI = gcnew UserSettings();
+
 		//Creates folder for user settings along with output desination file
 		String^ settingsPath = Environment::GetFolderPath(Environment::SpecialFolder::Desktop) + "/" + "settings";
 		String^ location = settingsPath + "/" + "location.txt";
+
 	public:
 		MainForm(void)
 		{
@@ -48,6 +61,7 @@ namespace SoftwareIntegrityTester {
 			if (DEBUG)
 				AllocConsole();
 
+			//Create the weaknesses and add them to the weakness list
 			weaknessList->Add(gcnew Weakness(gcnew System::String("Improper Handling of Undefined Values"), Weakness::Risk::High, 232));
 			weaknessList->Add(gcnew Weakness(gcnew System::String("Use of uninitialized variable"), Weakness::Risk::High, 457));
 			weaknessList->Add(gcnew Weakness(gcnew System::String("Null pointer dereference"), Weakness::Risk::High, 476));
@@ -78,6 +92,12 @@ namespace SoftwareIntegrityTester {
 			}
 		}
 
+	/*
+	*	Open Button Clicked:
+	*
+	*	Load file explorer, when a file is opened, load it and display it into the fileList.
+	*	Behind the scenes, read the file in the console window to show it is being read correctly.
+	*/
 	private: System::Void openButton_Click(System::Object^  sender, System::EventArgs^  e) {
 		if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 		{
@@ -108,6 +128,12 @@ namespace SoftwareIntegrityTester {
 			}
 		}
 	}
+
+	/*
+	*	Run Button Clicked:
+	*
+	*	If no files are selected, show a warning and don't run. Otherwise, start going through and scanning the files for weaknesses.
+	*/
 	private: System::Void runButton_Click(System::Object^  sender, System::EventArgs^  e) {
 		if (fileList->Items->Count == 0)
 		{
@@ -140,6 +166,12 @@ namespace SoftwareIntegrityTester {
 	}
 	public: bool isDisplayPathChecked = false; //Boolean to check if check box in settings is checked!
 
+	/*
+	*	Left Clicked to Remove Selected Files:
+	*
+	*	Gather the index of the selected files in the box, remove them from the fileList and from the data structure containing the weaknesses.
+	*
+	*/
 	private: System::Void removeSelectedFilesToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 		for (int i = fileList->SelectedIndices->Count - 1; i >= 0; i--) {
 			int index = fileList->SelectedIndices[i];
@@ -162,28 +194,51 @@ namespace SoftwareIntegrityTester {
 	private: System::Void filterToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
 
+	/*
+	*	On Start:
+	*
+	*	If we set a boolean to true, it wil show the message box containing the version number and such when started. Currently set to false
+	*/
 	private: System::Void MainForm_Shown(System::Object^  sender, System::EventArgs^  e) {
 		if (versionOnStart)
 			MessageBox::Show(VERSION + "\n" + VERSIONTEXT);
 	}
 
-	//When Help -> Instructions is clicked:
+	
+	/*
+	*	When Help menu option is click
+	*
+	*	Show the message box with the helptext
+	*/
 	private: System::Void aboutToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 		MessageBox::Show(HELPTEXT, "Software Integrity Tester Instructions");
 	}
 
-	//When Filter -> Filter by weakness... is clicked:
+	/*
+	*	When the Filter Menu Option is Selected:
+	*
+	*	Create a new filtersettings form and display it.
+	*/
 	private: System::Void filterByWeaknessToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 		FilterSettings^ fs = gcnew FilterSettings(weaknessList);
 		fs->Show();
 	}
 
-	//When Settings button is clicked:
+	/*
+	*	When the settings button is clicked:
+	*	
+	*	Show the userSettings form (which is hidden when the close button is clicked
+	*/
 	private: System::Void settingsBtn_Click(System::Object^  sender, System::EventArgs^  e) {
 		//UserSettings^ us = gcnew UserSettings();
 		userSettingsUI->Show();
 	}
 
+	/*
+	*	When the main form is loaded:
+	*
+	*	Check to see if there is a file that remembered the last settings. If there was, set the path, if not, create a file.
+	*/
 	private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
 		if (!System::IO::Directory::Exists(settingsPath)) {
 			System::IO::Directory::CreateDirectory(settingsPath); //before program opens, creates a user settings directory on desktop
@@ -201,6 +256,11 @@ namespace SoftwareIntegrityTester {
 		//same process, just create another file, still have to figure out how to check what was checked and then write it into a file
 	}
 
+	/*
+	*	When the main form is about to close:
+	*
+	*	Save the settings and path before closing.
+	*/
 	private: System::Void MainForm_FormClosed(System::Object^  sender, System::Windows::Forms::FormClosedEventArgs^  e) {
 		System::IO::StreamWriter^ sw = gcnew System::IO::StreamWriter(location, false);
 		sw->Write(userSettingsUI->getPath()); //overwrites the location file so that whatever outputpath was last used gets saved in the file

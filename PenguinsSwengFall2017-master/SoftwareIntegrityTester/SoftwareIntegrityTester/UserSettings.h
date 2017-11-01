@@ -1,4 +1,13 @@
 #pragma once
+/******************************************
+/* File:  UserSettings.h
+/*
+/* Description:  The UserSettings form will allows the user to set the path for the output file to be created in and to give
+/*				 the option to see the file file path or the safe file path in the program and in the output file.
+/*
+/* Programmer:  Brandon Gordon, James Meredith, Cole Christensen, Tyler Ligenzowski, Joe Dementri
+/* 30 OCT 2017  USERSETTINGS
+*******************************************/
 
 namespace SoftwareIntegrityTester {
 

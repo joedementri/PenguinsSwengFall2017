@@ -1,4 +1,15 @@
 #pragma once
+/******************************************
+/* File:  FilterSettings.h
+/*
+/* Description:  The FilterSettigns Form will display a checkbox list of weaknesses. By default, all will be checked and ran. The user
+/*				 can select and deselect weaknesses to customize how they want the S.I.T. to run and analyze files. Each weakness also
+/*				 has a description and a link to it's CWE online.
+/*
+/* Programmer:  Brandon Gordon, James Meredith, Cole Christensen, Tyler Ligenzowski, Joe Dementri
+/* 30 OCT 2017  FILTERSETTINGS
+*******************************************/
+
 #include "Weakness.h"
 namespace SoftwareIntegrityTester {
 
