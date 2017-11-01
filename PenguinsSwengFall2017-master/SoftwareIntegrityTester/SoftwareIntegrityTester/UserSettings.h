@@ -72,12 +72,20 @@ namespace SoftwareIntegrityTester {
 	//When Save button is clicked, path is saved. Sets boolean to true or false if checkbox is checked.
 	private: System::Void saveBtn_Click(System::Object^  sender, System::EventArgs^  e) {
 		path = tempPath;
-		if (checkBox1->Checked == true)
-		{
-			
-		}
 	}
 
+	public: property bool useFullFilePath
+	{
+		bool get()
+		{
+			if (checkBox1->Checked) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
 
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::Button^  saveBtn;
@@ -156,6 +164,7 @@ namespace SoftwareIntegrityTester {
 			this->displayPath->ReadOnly = true;
 			this->displayPath->Size = System::Drawing::Size(662, 31);
 			this->displayPath->TabIndex = 5;
+			this->displayPath->Text = path;
 			// 
 			// label1
 			// 
@@ -177,7 +186,6 @@ namespace SoftwareIntegrityTester {
 			this->checkBox1->TabIndex = 7;
 			this->checkBox1->Text = L"Display Full File Path(s) in List";
 			this->checkBox1->UseVisualStyleBackColor = true;
-			this->checkBox1->CheckedChanged += gcnew System::EventHandler(this, &UserSettings::checkBox1_CheckedChanged);
 			// 
 			// UserSettings
 			// 
@@ -199,9 +207,5 @@ namespace SoftwareIntegrityTester {
 		}
 #pragma endregion
 	
-private: System::Void checkBox1_CheckedChanged(System::Object^  sender, System::EventArgs^  e)
-{
-	
-}
 };
 }
