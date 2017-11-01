@@ -1,0 +1,51 @@
+this method searches for uninitialized variables by finding instances of variable names declared and tracking their usage to make sure = initializes first
+private SystemVoid button1_Click(SystemObject^  sender, SystemEventArgs^  e) 
+{
+	stdstring temp = ;
+	SystemIOStreamReader^ sr = gcnew
+		SystemIOStreamReader(CUsersdouglDesktopPenguinsSwengFall2017-master (10)PenguinsSwengFall2017-masterAda Filesfibonacci_BAD.adb);
+	temp = sr-ReadToEnd();
+	sr-Close();
+
+	int pos = 0;
+	stdstring delimiterSpace  =  ;
+	stdstring delimiterColon  = ;
+	stdstring delimiterEquals = =;
+	stdstring delimiterSemi   = ;;
+
+	ListString^ declared = gcnew ListString^(); list of declared variables
+
+	while (temp.find(pos) = temp.find(temp.length)) check all characters
+	{
+		if (temp.find(pos).Equals(delimiterColon) + !temp.find(pos+1).Equals(delimiterEquals)) find instance of colons for declarations without = signs
+																							    = is initializing
+
+		{
+			int tempPos = pos; to backtrack until we find a space. we use this as the beginning of a substring to capture the name of the variable up until the 
+			while (!temp.find(tempPos).Equals(delimiterSpace))
+			{
+				tempPos--;
+			}
+			declared-Add(temp.substr(tempPos + 1, pos - 1));declared adds a string of a declared name from the pos of the declareds first character until before the 
+			                     name tempPos+1 =   and pos-1 = 
+			pos++;
+		}
+
+		pos = 0;reset search of the string holding the Ada code
+
+		for (int i = 0; i  declared-Count; i++)
+		{
+			while (temp.find(pos) = temp.find(temp.length))
+			{
+				if(temp.substr(temp.find(pos), temp.find(pos + declared-i.length-1)).equals(declared-i + =)
+					
+			       temp.substr(temp.find(pos), temp.find(pos + declared-i.length - 1)).equals(declared-i +  =)
+					)
+				if they have the initialization dont throw a Weakness toString into output, currently this method is a button not a return method
+			}
+
+		}
+
+	
+
+	}
