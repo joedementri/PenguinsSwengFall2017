@@ -14,6 +14,15 @@
 #include "Weakness.h"
 #include "UserSettings.h"
 #include "FilterSettings.h"
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <msclr\marshal_cppstd.h>#include <stdlib.h>
+#include <string>
+#include <msclr\marshal_cppstd.h>
+
+using namespace System;
+using namespace msclr::interop;
 
 #define VERSION "0.1.0"
 #define VERSIONTEXT "Put Version Text Here"
@@ -140,6 +149,16 @@ namespace SoftwareIntegrityTester {
 			MessageBox::Show("Select Files to Run Test!");
 		}
 		else {
+			
+			//Test Case:
+			String^ fileName = fileList->Items[0]->ToString();
+			std::ifstream infile{ msclr::interop::marshal_as<std::string>(fileName) };
+			std::string file_contents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
+			System::Console::WriteLine("This is the test case string right here:");
+			System::Console::WriteLine(fileName);
+			System::Console::WriteLine(marshal_as<String^>(file_contents));
+
+
 			String^ outputName = System::String::Format("{0:yyyy - MM - dd_hh - mm - ss - tt}", System::DateTime::Now) + ".txt";
 			String^ outputPath = userSettingsUI->getPath() + "/" + outputName;
 			if (!System::IO::File::Exists(outputPath)) {
@@ -317,8 +336,8 @@ namespace SoftwareIntegrityTester {
 				 });
 				 this->menuStrip1->Location = System::Drawing::Point(0, 0);
 				 this->menuStrip1->Name = L"menuStrip1";
-				 this->menuStrip1->Padding = System::Windows::Forms::Padding(4, 2, 0, 2);
-				 this->menuStrip1->Size = System::Drawing::Size(362, 24);
+				 this->menuStrip1->Padding = System::Windows::Forms::Padding(8, 4, 0, 4);
+				 this->menuStrip1->Size = System::Drawing::Size(704, 44);
 				 this->menuStrip1->TabIndex = 0;
 				 this->menuStrip1->Text = L"menuStrip1";
 				 // 
@@ -326,13 +345,13 @@ namespace SoftwareIntegrityTester {
 				 // 
 				 this->filterToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->filterByWeaknessToolStripMenuItem });
 				 this->filterToolStripMenuItem->Name = L"filterToolStripMenuItem";
-				 this->filterToolStripMenuItem->Size = System::Drawing::Size(45, 20);
+				 this->filterToolStripMenuItem->Size = System::Drawing::Size(80, 36);
 				 this->filterToolStripMenuItem->Text = L"Filter";
 				 // 
 				 // filterByWeaknessToolStripMenuItem
 				 // 
 				 this->filterByWeaknessToolStripMenuItem->Name = L"filterByWeaknessToolStripMenuItem";
-				 this->filterByWeaknessToolStripMenuItem->Size = System::Drawing::Size(178, 22);
+				 this->filterByWeaknessToolStripMenuItem->Size = System::Drawing::Size(323, 38);
 				 this->filterByWeaknessToolStripMenuItem->Text = L"Filter by weakness...";
 				 this->filterByWeaknessToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::filterByWeaknessToolStripMenuItem_Click);
 				 // 
@@ -340,22 +359,22 @@ namespace SoftwareIntegrityTester {
 				 // 
 				 this->helpToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->aboutToolStripMenuItem });
 				 this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
-				 this->helpToolStripMenuItem->Size = System::Drawing::Size(44, 20);
+				 this->helpToolStripMenuItem->Size = System::Drawing::Size(77, 36);
 				 this->helpToolStripMenuItem->Text = L"Help";
 				 // 
 				 // aboutToolStripMenuItem
 				 // 
 				 this->aboutToolStripMenuItem->Name = L"aboutToolStripMenuItem";
-				 this->aboutToolStripMenuItem->Size = System::Drawing::Size(143, 22);
+				 this->aboutToolStripMenuItem->Size = System::Drawing::Size(250, 38);
 				 this->aboutToolStripMenuItem->Text = L"How to use...";
 				 this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::aboutToolStripMenuItem_Click);
 				 // 
 				 // openButton
 				 // 
-				 this->openButton->Location = System::Drawing::Point(9, 287);
-				 this->openButton->Margin = System::Windows::Forms::Padding(2);
+				 this->openButton->Location = System::Drawing::Point(18, 552);
+				 this->openButton->Margin = System::Windows::Forms::Padding(4);
 				 this->openButton->Name = L"openButton";
-				 this->openButton->Size = System::Drawing::Size(90, 49);
+				 this->openButton->Size = System::Drawing::Size(180, 94);
 				 this->openButton->TabIndex = 1;
 				 this->openButton->Text = L"Open";
 				 this->openButton->UseVisualStyleBackColor = true;
@@ -363,10 +382,10 @@ namespace SoftwareIntegrityTester {
 				 // 
 				 // runButton
 				 // 
-				 this->runButton->Location = System::Drawing::Point(103, 287);
-				 this->runButton->Margin = System::Windows::Forms::Padding(2);
+				 this->runButton->Location = System::Drawing::Point(206, 552);
+				 this->runButton->Margin = System::Windows::Forms::Padding(4);
 				 this->runButton->Name = L"runButton";
-				 this->runButton->Size = System::Drawing::Size(90, 49);
+				 this->runButton->Size = System::Drawing::Size(180, 94);
 				 this->runButton->TabIndex = 2;
 				 this->runButton->Text = L"Run";
 				 this->runButton->UseVisualStyleBackColor = true;
@@ -375,38 +394,39 @@ namespace SoftwareIntegrityTester {
 				 // versionLabel
 				 // 
 				 this->versionLabel->AutoSize = true;
-				 this->versionLabel->Location = System::Drawing::Point(297, 344);
-				 this->versionLabel->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+				 this->versionLabel->Location = System::Drawing::Point(594, 662);
+				 this->versionLabel->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 				 this->versionLabel->Name = L"versionLabel";
-				 this->versionLabel->Size = System::Drawing::Size(42, 13);
+				 this->versionLabel->Size = System::Drawing::Size(85, 25);
 				 this->versionLabel->TabIndex = 4;
 				 this->versionLabel->Text = L"Version";
 				 // 
 				 // fileList
 				 // 
 				 this->fileList->ContextMenuStrip = this->contextMenuStrip1;
-				 this->fileList->Font = (gcnew System::Drawing::Font(L"Calibri", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-					 static_cast<System::Byte>(0)));
+				 this->fileList->Font = (gcnew System::Drawing::Font(L"Calibri Light", 12));
 				 this->fileList->FormattingEnabled = true;
-				 this->fileList->ItemHeight = 29;
-				 this->fileList->Location = System::Drawing::Point(9, 34);
-				 this->fileList->Margin = System::Windows::Forms::Padding(2);
+				 this->fileList->HorizontalScrollbar = true;
+				 this->fileList->ItemHeight = 39;
+				 this->fileList->Location = System::Drawing::Point(18, 65);
+				 this->fileList->Margin = System::Windows::Forms::Padding(4);
 				 this->fileList->Name = L"fileList";
 				 this->fileList->SelectionMode = System::Windows::Forms::SelectionMode::MultiExtended;
-				 this->fileList->Size = System::Drawing::Size(344, 207);
+				 this->fileList->Size = System::Drawing::Size(684, 355);
 				 this->fileList->TabIndex = 5;
+				 this->fileList->SelectedIndexChanged += gcnew System::EventHandler(this, &MainForm::fileList_SelectedIndexChanged);
 				 // 
 				 // contextMenuStrip1
 				 // 
 				 this->contextMenuStrip1->ImageScalingSize = System::Drawing::Size(32, 32);
 				 this->contextMenuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->removeSelectedFilesToolStripMenuItem });
 				 this->contextMenuStrip1->Name = L"contextMenuStrip1";
-				 this->contextMenuStrip1->Size = System::Drawing::Size(191, 26);
+				 this->contextMenuStrip1->Size = System::Drawing::Size(329, 40);
 				 // 
 				 // removeSelectedFilesToolStripMenuItem
 				 // 
 				 this->removeSelectedFilesToolStripMenuItem->Name = L"removeSelectedFilesToolStripMenuItem";
-				 this->removeSelectedFilesToolStripMenuItem->Size = System::Drawing::Size(190, 22);
+				 this->removeSelectedFilesToolStripMenuItem->Size = System::Drawing::Size(328, 36);
 				 this->removeSelectedFilesToolStripMenuItem->Text = L"Remove Selected Files";
 				 this->removeSelectedFilesToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::removeSelectedFilesToolStripMenuItem_Click);
 				 // 
@@ -416,9 +436,10 @@ namespace SoftwareIntegrityTester {
 				 // 
 				 // settingsBtn
 				 // 
-				 this->settingsBtn->Location = System::Drawing::Point(264, 287);
+				 this->settingsBtn->Location = System::Drawing::Point(528, 552);
+				 this->settingsBtn->Margin = System::Windows::Forms::Padding(6);
 				 this->settingsBtn->Name = L"settingsBtn";
-				 this->settingsBtn->Size = System::Drawing::Size(89, 49);
+				 this->settingsBtn->Size = System::Drawing::Size(178, 94);
 				 this->settingsBtn->TabIndex = 7;
 				 this->settingsBtn->Text = L"Settings";
 				 this->settingsBtn->UseVisualStyleBackColor = true;
@@ -426,9 +447,9 @@ namespace SoftwareIntegrityTester {
 				 // 
 				 // MainForm
 				 // 
-				 this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+				 this->AutoScaleDimensions = System::Drawing::SizeF(12, 25);
 				 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-				 this->ClientSize = System::Drawing::Size(362, 356);
+				 this->ClientSize = System::Drawing::Size(704, 623);
 				 this->Controls->Add(this->settingsBtn);
 				 this->Controls->Add(this->fileList);
 				 this->Controls->Add(this->versionLabel);
@@ -437,10 +458,10 @@ namespace SoftwareIntegrityTester {
 				 this->Controls->Add(this->menuStrip1);
 				 this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 				 this->MainMenuStrip = this->menuStrip1;
-				 this->Margin = System::Windows::Forms::Padding(2);
+				 this->Margin = System::Windows::Forms::Padding(4);
 				 this->MaximizeBox = false;
-				 this->MaximumSize = System::Drawing::Size(378, 395);
-				 this->MinimumSize = System::Drawing::Size(378, 395);
+				 this->MaximumSize = System::Drawing::Size(730, 694);
+				 this->MinimumSize = System::Drawing::Size(730, 694);
 				 this->Name = L"MainForm";
 				 this->Text = L"Software Integrity Tester";
 				 this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &MainForm::MainForm_FormClosed);
@@ -454,5 +475,7 @@ namespace SoftwareIntegrityTester {
 
 			 }
 #pragma endregion
+private: System::Void fileList_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+}
 };
 }
