@@ -35,3 +35,7 @@ Class SoftwareIntegrityTester.MainForm: AutoLayout, AnsiClass, Class, Public, Be
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Fields:
     Boolean isDisplayPathChecked : Public
+  Methods:
+    checkForWeakness1(StreamWriter): PrivateScope, Public, HideBySig
+    checkForWeakness2(StreamWriter): PrivateScope, Public, HideBySig
+    checkForWeakness3(StreamWriter): PrivateScope, Public, HideBySig

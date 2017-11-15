@@ -17,7 +17,8 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include <msclr\marshal_cppstd.h>#include <stdlib.h>
+#include <msclr\marshal_cppstd.h>
+#include <stdlib.h>
 #include <string>
 #include <msclr\marshal_cppstd.h>
 
@@ -177,12 +178,75 @@ namespace SoftwareIntegrityTester {
 				sw->WriteLine(weaknessList[i]->ToString());
 			}
 			sw->WriteLine(SEPERATOR);
+
+			//if weakness 1 is checked
+				//run weakness 1 check
+				checkForWeakness1(sw);
+			
+			//if weakness 2 is checked
+				//run weakness 2 check
+				checkForWeakness2(sw);
+			
+			//if weakness 3 is checked
+				//run weakness 3 check
+				checkForWeakness3(sw);
+
+			//if weakenss 4 is checked
+
+			//if weakness 5 is checked
+
+			//if weakness 6 is checked
+
+			//if weakness 7 is checked
+
+			//etc...
+
 			sw->Close();
 			//we can throw this code in another method called generate report or something and have the actual scan in here, or just have the scan run after and 
 			//append the vulnerabilities onto the file.
 			//also we need the actual scan before we can generate a report on what has weaknesses and what doesn't
 		}
 	}
+
+	public: System::Void checkForWeakness1(System::IO::StreamWriter^ sw) 
+	{
+		sw->WriteLine("Weakness 1: Uninitialized Variables");
+		sw->WriteLine("\tRisk: High");
+		sw->WriteLine();
+
+		//TODO: Put the code here
+
+
+		sw->WriteLine("This is where the output of the weakness check will go.");
+		sw->WriteLine(SEPERATOR);
+	}
+
+	public: System::Void checkForWeakness2(System::IO::StreamWriter^ sw)
+	{
+		sw->WriteLine("Weakness 2: Dead Code");
+		sw->WriteLine("\tRisk: High");
+		sw->WriteLine();
+
+		//TODO: Put the code here
+
+
+		sw->WriteLine("This is where the output of the weakness check will go.");
+		sw->WriteLine(SEPERATOR);
+	}
+
+	public: System::Void checkForWeakness3(System::IO::StreamWriter^ sw)
+	{
+		sw->WriteLine("Weakness 3: Division by 0");
+		sw->WriteLine("\tRisk: High");
+		sw->WriteLine();
+
+		//TODO: Put the code here
+
+
+		sw->WriteLine("This is where the output of the weakness check will go.");
+		sw->WriteLine(SEPERATOR);
+	}
+
 	public: bool isDisplayPathChecked = false; //Boolean to check if check box in settings is checked!
 
 	/*
