@@ -223,11 +223,71 @@ namespace SoftwareIntegrityTester {
 
 	public: System::Void checkForWeakness2(System::IO::StreamWriter^ sw)
 	{
-		sw->WriteLine("Weakness 2: Dead Code");
+		sw->WriteLine("Weakness 2: Unused functions / Dead Code");
 		sw->WriteLine("\tRisk: High");
 		sw->WriteLine();
 
-		//TODO: Put the code here
+		//the arrayOfContent is a vector that acts as an array. It holds what I want to be the string content
+		//of an Ada file without spaces if possible.
+
+
+
+		//FUNCTION TRACKING WEAKNESS
+		//------------------------------
+		//variables
+
+		//String^ fileName = fileList->Items[0]->ToString();
+		//std::ifstream infile{ msclr::interop::marshal_as<std::string>(fileName) };
+		//std::string file_contents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
+		//std::vector<String^> arrayOfContent = marshal_as<String^>(file_contents)->Split;
+		//array full of strings from the file separated by spaces
+
+		String^ temp = "";
+		System::IO::StreamReader^ sr = gcnew
+			System::IO::StreamReader(openFileDialog1->FileName);
+		temp = sr->ReadToEnd();
+		fileContentList->Add(temp);
+		sr->Close();
+
+		std::vector<String^> arrayOfContent = temp->Split;
+		
+		
+		std::vector<String^> foundFuncNames;//************************ how to initialize vectors ? gcnew doesn't work
+		int posFunc = 0; //setting index to find a procedure or function title
+		int posFuncName = posFunc + 1; //setting index for function or procedure name which will always be the index after the posFunc
+									   //protocol
+		String^ procedure = "procedure";
+		String^ function = "function";
+
+		for (posFunc; posFunc < arrayOfContent.size - 2; posFunc++) //not size-2 because posFuncName will account for the last string in the "array"
+		{
+			if (arrayOfContent.at(posFunc).Compare(procedure) == 1 || arrayOfContent->at(posFunc)->compare(function) == 1)
+			{
+				foundFuncNames.push_back(arrayOfContent.at(posFuncName));
+			}
+		}
+
+		System::Console::WriteLine("Here are the functions/procedures created: (blank if none)");
+		int funcUsage = 1; //before going into next for loop, funcUsage starts at 1 because we know foundFuncNames carries multiple function names found already (1 time)
+		for (String^ foundFunc : foundFuncNames)
+		{
+			for (int posInContent = 0; posInContent < arrayOfContent.size; posInContent++) //comparing to see if the names are used again so this increment must restart every found function name
+			{
+				if (arrayOfContent->at(posInContent)->compare(foundFunc) == 1)
+				{
+					funcUsage++;
+				}
+			}
+			System::Console::WriteLine(foundFunc.toString());	//basicstring tostring?	
+			if (funcUsage == 1)
+			{
+				System::Console::WriteLine("Procedure/Function created but not used");
+			}
+			else
+			{
+				System::Console::WriteLine("Procedure/Function used " + funcUsage + " times.");
+			}
+		}
 
 
 		sw->WriteLine("This is where the output of the weakness check will go.");
@@ -240,7 +300,19 @@ namespace SoftwareIntegrityTester {
 		sw->WriteLine("\tRisk: High");
 		sw->WriteLine();
 
-		//TODO: Put the code here
+
+		//DIVIDE BY ZERO WEAKNESS
+		//--------------------------------
+		int posDivision = 0; //find division sign
+		int posZero = posDivision + 1; //find division sign
+									   //protocol
+		for (posDivision; posDivision < arrayOfContent.size - 2; posDivision++) //size-2 because posZero will account for the last string in the "array"
+		{
+			if (arrayOfContent.at(posDivision).compare("/") == 1 || arrayOfContent.at(posZero).compare("0") == 1)
+			{
+				System::Console::WriteLine("Cannot divide by 0 in position " + posDivision + " and " + posZero + ".");
+			}
+		}
 
 
 		sw->WriteLine("This is where the output of the weakness check will go.");
