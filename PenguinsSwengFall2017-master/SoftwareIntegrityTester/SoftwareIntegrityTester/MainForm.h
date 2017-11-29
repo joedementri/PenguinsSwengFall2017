@@ -160,7 +160,13 @@ namespace SoftwareIntegrityTester {
 			System::Console::WriteLine(marshal_as<String^>(file_contents));
 
 
-			String^ outputName = System::String::Format("{0:yyyy - MM - dd_hh - mm - ss - tt}", System::DateTime::Now) + ".txt";
+			DateTime todayDate = System::DateTime::Now;
+			double dHours = todayDate.Hour;
+			double dMins = todayDate.Minute;
+			double dSeconds = todayDate.Second;
+			double totalSeconds = (dHours * 3600) + (dMins * 60) + dSeconds;
+			
+			String^ outputName = System::String::Format("{0:MM-dd-yyyy}", todayDate) + " - Secs " + totalSeconds + ".txt";
 			String^ outputPath = userSettingsUI->getPath() + "/" + outputName;
 			if (!System::IO::File::Exists(outputPath)) {
 				System::IO::File::CreateText(outputPath)->Close();
