@@ -192,11 +192,14 @@ namespace SoftwareIntegrityTester {
 				checkForWeakness3(sw);
 
 			//if weakenss 4 is checked
-
+				//run weakness 4 check
+				checkForWeakness4(sw);
 			//if weakness 5 is checked
-
+				//run weakness 5 check
+				checkForWeakness5(sw);
 			//if weakness 6 is checked
-
+				//run weakness 6 check
+				checkForWeakness6(sw);
 			//if weakness 7 is checked
 
 			//etc...
@@ -316,6 +319,238 @@ namespace SoftwareIntegrityTester {
 
 
 		sw->WriteLine("This is where the output of the weakness check will go.");
+		sw->WriteLine(SEPERATOR);
+	}
+	
+	
+	public: System::Void checkForWeakness4(System::IO::StreamWriter^ sw)
+	{
+		sw->WriteLine("Weakness 4: ");
+		sw->WriteLine("\tRisk: High");
+		sw->WriteLine();
+		
+		sw->WriteLine("This is where the output of the weakness check will go.");
+		sw->WriteLine(SEPERATOR);
+	}
+	
+	public: System::Void checkForWeakness5(System::IO::StreamWriter^ sw) 
+	{
+		sw->WriteLine("Weakness 5: Numeric Overflow");
+		sw->WriteLine("\tRisk: Medium");
+		sw->WriteLine();
+
+		
+		//Overflow weakness
+		//--------------------------------
+		for (int i = 0; i < fileList->Items->Count; i++)
+		{
+			sw->WriteLine(fileList->Items[i]);
+			//Get the file into file contents
+			String^ fileName = fileList->Items[i]->ToString();
+			std::ifstream infile{ msclr::interop::marshal_as<std::string>(fileName) };
+			std::string file_contents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
+
+			//find all instances of 'First and 'Last
+			std::string firstAttribute = "'First";
+			std::string lastAttribute = "'Last";
+
+			//check for 'First first
+			int foundPos = file_contents.find(firstAttribute);
+			
+			while (foundPos != -1) 
+			{
+				//if you do find it, find the variable associated with it and save it for output
+				//find the space before
+				std::string assignmentOperator = ":=";
+				int assignmentOperatorPosition = file_contents.find(assignmentOperator);
+
+				int lastAssnOpBeforePassing = assignmentOperatorPosition;
+
+				//Find all the :=, keeping track of the last one before the foundPos
+				while (assignmentOperatorPosition != -1 && assignmentOperatorPosition < foundPos) 
+				{
+					//Keep track of the position of the last := before the while loop breaks
+					lastAssnOpBeforePassing = assignmentOperatorPosition;
+					assignmentOperatorPosition = file_contents.find(assignmentOperator, assignmentOperatorPosition+1);
+				}
+
+				std::string declarationOperator = ":";
+				int declarationOperatorPosition = file_contents.find(declarationOperator);
+
+				int lastDeclOpBeforePassing = declarationOperatorPosition;
+
+				//Find all the ":", keeping track of the last one before lastAssnOpBeforePassing
+				while (declarationOperatorPosition != -1 && declarationOperatorPosition < lastAssnOpBeforePassing) 
+				{
+					//Keep track of the position of the last : before the while loop breaks
+					lastDeclOpBeforePassing = declarationOperatorPosition;
+					declarationOperatorPosition = file_contents.find(declarationOperator, declarationOperatorPosition+1);
+				}
+
+				std::string newlineOperator = "\n";
+				int newlineOperatorPosition = file_contents.find(newlineOperator);
+
+				int lastNewlineOpBeforePassing = newlineOperatorPosition;
+
+				//Find all the \n, keeping track of the last one before lastDeclOpBeforePassing
+				while (newlineOperatorPosition != -1 && newlineOperatorPosition < lastDeclOpBeforePassing) 
+				{
+					//Keep track of the position of the last \n before the while loop breaks
+					lastNewlineOpBeforePassing = newlineOperatorPosition;
+					newlineOperatorPosition = file_contents.find(newlineOperator, newlineOperatorPosition+1);
+				}
+
+				int lengthOfVarName = lastDeclOpBeforePassing - lastNewlineOpBeforePassing;
+				std::string varName = file_contents.substr(lastNewlineOpBeforePassing, lengthOfVarName);
+				sw->WriteLine("\tVariable(s) assigned with 'First: " + marshal_as<String^>(varName));
+
+				//Reset the foundPos variable to search the rest of the string to find 'First
+				foundPos = file_contents.find(firstAttribute, foundPos+1);
+
+			}
+
+			//*****************************************************************************************************
+			//VISIBILITY COMMENT - this is where 'Last search begins
+			//*****************************************************************************************************
+
+			//check for 'Last next
+			foundPos = file_contents.find(lastAttribute);
+
+			while (foundPos != -1)
+			{
+				//if you do find it, find the variable associated with it and save it for output
+				//find the space before
+				std::string assignmentOperator = ":=";
+				int assignmentOperatorPosition = file_contents.find(assignmentOperator);
+
+				int lastAssnOpBeforePassing = assignmentOperatorPosition;
+
+				//Find all the :=, keeping track of the last one before the foundPos
+				while (assignmentOperatorPosition != -1 && assignmentOperatorPosition < foundPos)
+				{
+					//Keep track of the position of the last := before the while loop breaks
+					lastAssnOpBeforePassing = assignmentOperatorPosition;
+					assignmentOperatorPosition = file_contents.find(assignmentOperator, assignmentOperatorPosition+1);
+				}
+
+				std::string declarationOperator = ":";
+				int declarationOperatorPosition = file_contents.find(declarationOperator);
+
+				int lastDeclOpBeforePassing = declarationOperatorPosition;
+
+				//Find all the ":", keeping track of the last one before lastAssnOpBeforePassing
+				while (declarationOperatorPosition != -1 && declarationOperatorPosition < lastAssnOpBeforePassing)
+				{
+					//Keep track of the position of the last : before the while loop breaks
+					lastDeclOpBeforePassing = declarationOperatorPosition;
+					declarationOperatorPosition = file_contents.find(declarationOperator, declarationOperatorPosition+1);
+				}
+
+				std::string newlineOperator = "\n";
+				int newlineOperatorPosition = file_contents.find(newlineOperator);
+
+				int lastNewlineOpBeforePassing = newlineOperatorPosition;
+
+				//Find all the \n, keeping track of the last one before lastDeclOpBeforePassing
+				while (newlineOperatorPosition != -1 && newlineOperatorPosition < lastDeclOpBeforePassing)
+				{
+					//Keep track of the position of the last \n before the while loop breaks
+					lastNewlineOpBeforePassing = newlineOperatorPosition;
+					newlineOperatorPosition = file_contents.find(newlineOperator, newlineOperatorPosition+1);
+				}
+
+				int lengthOfVarName = lastDeclOpBeforePassing - lastNewlineOpBeforePassing;
+				std::string varName = file_contents.substr(lastNewlineOpBeforePassing, lengthOfVarName);
+				sw->WriteLine("\tVariable(s) assigned with 'Last: " + marshal_as<String^>(varName));
+
+				//Reset the foundPos variable to search the rest of the string to find 'First
+				foundPos = file_contents.find(lastAttribute, foundPos+1);
+
+			}
+
+		}
+		
+
+		sw->WriteLine("");
+		sw->WriteLine(SEPERATOR);
+	}
+
+	public: System::Void checkForWeakness6(System::IO::StreamWriter^ sw) 
+	{
+		sw->WriteLine("Weakness 6: Range Constraints");
+		sw->WriteLine("\tRisk: Medium");
+		sw->WriteLine();
+		
+		//Range Constraint Weakness
+		for (int i = 0; i < fileList->Items->Count; i++)
+		{
+			sw->WriteLine(fileList->Items[i]);
+
+			//Get the file into file contents
+			String^ fileName = fileList->Items[i]->ToString();
+			std::ifstream infile{ msclr::interop::marshal_as<std::string>(fileName) };
+			std::string file_contents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
+
+			std::string rangeOperator = "..";
+
+			int rangeOperatorPosition = file_contents.find(rangeOperator);
+
+			//find each instance of .. in the program
+			while (rangeOperatorPosition != -1) 
+			{
+				std::string arrayName = "is array";
+				int arrayNamePosition = file_contents.find(arrayName);
+				int lastArrayNamePosition = arrayNamePosition;
+
+				//find where array name is
+				while (arrayNamePosition != -1 && arrayNamePosition < rangeOperatorPosition)
+				{
+					lastArrayNamePosition = arrayNamePosition;
+					arrayNamePosition = file_contents.find(arrayName, arrayNamePosition + 1);
+
+				}
+				sw->WriteLine("Range Operator Position: " + rangeOperatorPosition);
+				sw->WriteLine("is array position: " + lastArrayNamePosition);
+				if (rangeOperatorPosition-arrayNamePosition < 50) 
+				{
+					std::string ofKW = "of";
+					int ofPosition = file_contents.find(ofKW, rangeOperatorPosition);
+					std::string bounds = file_contents.substr(lastArrayNamePosition + 8, ofPosition - (lastArrayNamePosition + 8));
+
+					std::string newlineOperator = "\n";
+					int newlineOperatorPosition = file_contents.find(newlineOperator);
+
+					int lastNewlineOpBeforePassing = newlineOperatorPosition;
+
+					//Find all the \n, keeping track of the last one before lastDeclOpBeforePassing
+					while (newlineOperatorPosition != -1 && newlineOperatorPosition < lastArrayNamePosition)
+					{
+						//Keep track of the position of the last \n before the while loop breaks
+						lastNewlineOpBeforePassing = newlineOperatorPosition;
+						newlineOperatorPosition = file_contents.find(newlineOperator, newlineOperatorPosition + 1);
+					}
+
+					std::string arrayName = file_contents.substr(lastNewlineOpBeforePassing + 6, (lastArrayNamePosition - (lastNewlineOpBeforePassing + 6)));
+
+					sw->WriteLine("\tArray \"" + marshal_as<String^>(arrayName) + "\" has constraints " + marshal_as<String^>(bounds));
+					sw->WriteLine("\t\tPlease make sure you do not go out of the bounds of the array!");
+
+				}
+
+				int nextOp = file_contents.find(rangeOperator, rangeOperatorPosition + 1);
+				if (nextOp != -1 && nextOp - rangeOperatorPosition < 20) 
+				{
+					rangeOperatorPosition = file_contents.find(rangeOperator, nextOp + 1);
+				}
+				else {
+					rangeOperatorPosition = file_contents.find(rangeOperator, rangeOperatorPosition + 1);
+				}
+
+			}
+
+		}
+
+		sw->WriteLine("");
 		sw->WriteLine(SEPERATOR);
 	}
 
