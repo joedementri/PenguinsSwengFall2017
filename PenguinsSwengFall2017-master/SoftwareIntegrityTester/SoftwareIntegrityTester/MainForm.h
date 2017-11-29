@@ -242,9 +242,9 @@ namespace SoftwareIntegrityTester {
 			//if weakenss 4 is checked
 
 			//if weakness 5 is checked
-
+				checkForWeakness5(sw);
 			//if weakness 6 is checked
-
+				checkForWeakness6(sw);
 			//if weakness 7 is checked
 
 			//etc...
