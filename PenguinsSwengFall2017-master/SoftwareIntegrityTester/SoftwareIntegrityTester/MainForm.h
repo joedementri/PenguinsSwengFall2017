@@ -72,22 +72,22 @@ namespace SoftwareIntegrityTester {
 				AllocConsole();
 
 			//Create the weaknesses and add them to the weakness list
-			weaknessList->Add(gcnew Weakness(gcnew System::String("Improper Handling of Undefined Values"), Weakness::Risk::High, 232));
+			
 			weaknessList->Add(gcnew Weakness(gcnew System::String("Use of uninitialized variable"), Weakness::Risk::High, 457));
+			weaknessList->Add(gcnew Weakness(gcnew System::String("Function and Procedure Tracking"), Weakness::Risk::High, 561));
+			weaknessList->Add(gcnew Weakness(gcnew System::String("Division by zero"), Weakness::Risk::High, 369));
+			weaknessList->Add(gcnew Weakness(gcnew System::String("Dead code"), Weakness::Risk::High, 191));
+			weaknessList->Add(gcnew Weakness(gcnew System::String("Integer Overflow"), Weakness::Risk::High, 190));			
+			weaknessList->Add(gcnew Weakness(gcnew System::String("Range Constraint Violation"), Weakness::Risk::High, 570));			
 			weaknessList->Add(gcnew Weakness(gcnew System::String("Null pointer dereference"), Weakness::Risk::High, 476));
-			weaknessList->Add(gcnew Weakness(gcnew System::String("Dead code"), Weakness::Risk::High, 561));
 			weaknessList->Add(gcnew Weakness(gcnew System::String("Infinite loop"), Weakness::Risk::High, 835));
 			weaknessList->Add(gcnew Weakness(gcnew System::String("Incorrect synchronization"), Weakness::Risk::High, 821));
 			weaknessList->Add(gcnew Weakness(gcnew System::String("Missing synchronization"), Weakness::Risk::High, 820));
 			weaknessList->Add(gcnew Weakness(gcnew System::String("Incorrect Calculation"), Weakness::Risk::High, 682));
-			weaknessList->Add(gcnew Weakness(gcnew System::String("Expression is always true"), Weakness::Risk::High, 571));
-			weaknessList->Add(gcnew Weakness(gcnew System::String("Expression is always false"), Weakness::Risk::High, 570));
+			weaknessList->Add(gcnew Weakness(gcnew System::String("Expression is always true/false"), Weakness::Risk::High, 571));
 			weaknessList->Add(gcnew Weakness(gcnew System::String("Unused or redundant assignement"), Weakness::Risk::High, 563));
-			weaknessList->Add(gcnew Weakness(gcnew System::String("Division by zero"), Weakness::Risk::High, 369));
 			weaknessList->Add(gcnew Weakness(gcnew System::String("Race condition"), Weakness::Risk::High, 457));
-			weaknessList->Add(gcnew Weakness(gcnew System::String("Integer Overflow"), Weakness::Risk::High, 190));
-			weaknessList->Add(gcnew Weakness(gcnew System::String("Integer Underflow"), Weakness::Risk::High, 191));		
-
+			weaknessList->Add(gcnew Weakness(gcnew System::String("Improper Handling of Undefined Values"), Weakness::Risk::High, 232));
 		}
 
 	protected:
@@ -242,9 +242,15 @@ namespace SoftwareIntegrityTester {
 		sw->WriteLine();
 
 		//TODO: Put the code here
+		for (int i = 0; i < fileList->Items->Count; i++)
+		{
+			sw->WriteLine(fileList->Items[i]);
+			//Get the file into file contents
+			String^ fileName = fileList->Items[i]->ToString();
+			std::ifstream infile{ msclr::interop::marshal_as<std::string>(fileName) };
+			std::string file_contents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
+		}
 
-
-		sw->WriteLine("This is where the output of the weakness check will go.");
 		sw->WriteLine(SEPERATOR);
 	}
 
@@ -256,9 +262,7 @@ namespace SoftwareIntegrityTester {
 
 		//the arrayOfContent is a vector that acts as an array. It holds what I want to be the string content
 		//of an Ada file without spaces if possible.
-
-
-
+		/*
 		//FUNCTION TRACKING WEAKNESS
 		//------------------------------
 		//variables
@@ -316,18 +320,52 @@ namespace SoftwareIntegrityTester {
 			}
 		}
 
+		*/
 
-		sw->WriteLine("This is where the output of the weakness check will go.");
+		for (int i = 0; i < fileList->Items->Count; i++)
+		{
+			sw->WriteLine(fileList->Items[i]);
+			//Get the file into file contents
+			String^ fileName = fileList->Items[i]->ToString();
+			std::ifstream infile{ msclr::interop::marshal_as<std::string>(fileName) };
+			std::string file_contents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
+
+			std::string procedureKW = "procedure";
+			int procedurePos = file_contents.find(procedureKW);
+
+			while (procedurePos != -1)
+			{
+				std::string textAftProc = file_contents.substr(procedurePos + 10);
+				std::string name = textAftProc.substr(0, textAftProc.find(" "));
+				sw->WriteLine("\tprocedure " + marshal_as<String^>(name));
+
+				int sameProcedureNextPos = textAftProc.find(name);
+
+				if (sameProcedureNextPos != -1) 
+				{
+					sw->WriteLine("\t\tprocedure " + marshal_as<String^>(name) + " has use.");
+				}
+				else
+				{
+					sw->WriteLine("\t\tprocedure " + marshal_as<String^>(name) + "never used.");
+				}
+
+				procedurePos = file_contents.find(procedureKW, procedurePos + 1);
+			}
+
+
+		}
+
 		sw->WriteLine(SEPERATOR);
 	}
 
 	public: System::Void checkForWeakness3(System::IO::StreamWriter^ sw)
 	{
 		sw->WriteLine("Weakness 3: Division by 0");
-		sw->WriteLine("\tRisk: High");
+		sw->WriteLine("\tRisk: Low");
 		sw->WriteLine();
 
-
+		/*
 		//DIVIDE BY ZERO WEAKNESS
 		//--------------------------------
 		int posDivision = 0; //find division sign
@@ -340,20 +378,47 @@ namespace SoftwareIntegrityTester {
 				System::Console::WriteLine("Cannot divide by 0 in position " + posDivision + " and " + posZero + ".");
 			}
 		}
+		*/
 
+		for (int i = 0; i < fileList->Items->Count; i++)
+		{
+			sw->WriteLine(fileList->Items[i]);
+			//Get the file into file contents
+			String^ fileName = fileList->Items[i]->ToString();
+			std::ifstream infile{ msclr::interop::marshal_as<std::string>(fileName) };
+			std::string file_contents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
 
-		sw->WriteLine("This is where the output of the weakness check will go.");
+			std::string divByZero = "/0";
+			int divByZeroPos = file_contents.find(divByZero);
+
+			while(divByZeroPos != -1) 
+			{
+				sw->WriteLine("\tDivide by Zero Error found at position: " + divByZeroPos);
+				
+				divByZeroPos = -1;	//temp break out after one
+				//int divByZeroPos = file_contents.find(divByZero, divByZeroPos + 5);
+				
+			}
+		}
+
 		sw->WriteLine(SEPERATOR);
 	}
 	
-	
 	public: System::Void checkForWeakness4(System::IO::StreamWriter^ sw)
 	{
-		sw->WriteLine("Weakness 4: ");
+		sw->WriteLine("Weakness 4: Dead code");
 		sw->WriteLine("\tRisk: High");
 		sw->WriteLine();
 		
-		sw->WriteLine("This is where the output of the weakness check will go.");
+		for (int i = 0; i < fileList->Items->Count; i++)
+		{
+			sw->WriteLine(fileList->Items[i]);
+			//Get the file into file contents
+			String^ fileName = fileList->Items[i]->ToString();
+			std::ifstream infile{ msclr::interop::marshal_as<std::string>(fileName) };
+			std::string file_contents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
+		}
+
 		sw->WriteLine(SEPERATOR);
 	}
 	
@@ -533,8 +598,7 @@ namespace SoftwareIntegrityTester {
 					arrayNamePosition = file_contents.find(arrayName, arrayNamePosition + 1);
 
 				}
-				sw->WriteLine("Range Operator Position: " + rangeOperatorPosition);
-				sw->WriteLine("is array position: " + lastArrayNamePosition);
+
 				if (rangeOperatorPosition-arrayNamePosition < 50) 
 				{
 					std::string ofKW = "of";

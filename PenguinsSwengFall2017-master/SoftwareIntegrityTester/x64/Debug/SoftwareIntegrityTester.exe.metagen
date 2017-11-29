@@ -19,6 +19,8 @@ Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c5619
 Class SoftwareIntegrityTester.FilterSettings: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(System.Collections.Generic.List`1[Weakness]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    System.Collections.Generic.List`1[System.Object] checkedList : Public, Static
 Class SoftwareIntegrityTester.UserSettings: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
@@ -39,3 +41,6 @@ Class SoftwareIntegrityTester.MainForm: AutoLayout, AnsiClass, Class, Public, Be
     checkForWeakness1(StreamWriter): PrivateScope, Public, HideBySig
     checkForWeakness2(StreamWriter): PrivateScope, Public, HideBySig
     checkForWeakness3(StreamWriter): PrivateScope, Public, HideBySig
+    checkForWeakness4(StreamWriter): PrivateScope, Public, HideBySig
+    checkForWeakness5(StreamWriter): PrivateScope, Public, HideBySig
+    checkForWeakness6(StreamWriter): PrivateScope, Public, HideBySig
