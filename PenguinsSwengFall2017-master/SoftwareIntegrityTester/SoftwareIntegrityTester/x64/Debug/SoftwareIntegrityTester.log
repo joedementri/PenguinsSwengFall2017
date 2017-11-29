@@ -1,48 +1,29 @@
 ﻿  MainForm.cpp
-c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\FilterSettings.h(31): warning C4677: 'FilterSettings': signature of non-private member contains assembly private type 'Weakness'
-  c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\Weakness.h(5): note: see declaration of 'Weakness'
-C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include\vector(984): error C3699: '&&': cannot use this indirection on type 'System::String ^'
-  c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(242): note: see reference to class template instantiation 'std::vector<System::String ^,std::allocator<_Ty>>' being compiled
-          with
-          [
-              _Ty=System::String ^
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.11.25503\include\vector(1067): error C3699: '&&': cannot use this indirection on type 'System::String ^'
-c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(242): error C3867: 'System::String::Split': non-standard syntax; use '&' to create a pointer to member
-c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(249): error C3867: 'std::vector<System::String ^,std::allocator<_Ty>>::size': non-standard syntax; use '&' to create a pointer to member
-          with
-          [
-              _Ty=System::String ^
-          ]
-c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(249): error C2296: '-': illegal, left operand has type 'unsigned __int64 (__cdecl std::vector<System::String ^,std::allocator<_Ty>>::* )(void) noexcept const'
-          with
-          [
-              _Ty=System::String ^
-          ]
-c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(251): error C2228: left of '.compare' must have class/struct/union
-  c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(251): note: type is 'System::String ^'
-  c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(251): note: did you intend to use '->' instead?
-c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(261): error C3867: 'std::vector<System::String ^,std::allocator<_Ty>>::size': non-standard syntax; use '&' to create a pointer to member
-          with
-          [
-              _Ty=System::String ^
-          ]
-c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(261): error C2446: '<': no conversion from 'unsigned __int64 (__cdecl std::vector<System::String ^,std::allocator<_Ty>>::* )(void) noexcept const' to 'int'
-          with
-          [
-              _Ty=System::String ^
-          ]
-  c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(261): note: There is no context in which this conversion is possible
-c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(263): error C2228: left of '.compare' must have class/struct/union
-  c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(263): note: type is 'System::String ^'
-  c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(263): note: did you intend to use '->' instead?
-c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(268): error C2228: left of '.toString' must have class/struct/union
-  c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(268): note: type is 'System::String ^'
-  c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(268): note: did you intend to use '->' instead?
-c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(296): error C2065: 'arrayOfContent': undeclared identifier
-c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(296): error C2228: left of '.size' must have class/struct/union
-  c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(296): note: type is 'unknown-type'
-c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(298): error C2065: 'arrayOfContent': undeclared identifier
-c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(298): error C2228: left of '.at' must have class/struct/union
-  c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(298): note: type is 'unknown-type'
-c:\users\joe dementri\downloads\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(298): error C2228: left of '.compare' must have class/struct/union
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\FilterSettings.h(31): warning C4677: 'FilterSettings': signature of non-private member contains assembly private type 'Weakness'
+  c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\Weakness.h(5): note: see declaration of 'Weakness'
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(350): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(357): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(366): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(370): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(379): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(383): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(392): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(400): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(409): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(416): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(425): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(429): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(438): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(442): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(451): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(459): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(489): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(495): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(502): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(510): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(514): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(523): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(533): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(536): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dougl\desktop\penguinsswengfall2017-master (12)\penguinsswengfall2017-master\penguinsswengfall2017-master\softwareintegritytester\softwareintegritytester\MainForm.h(539): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  SoftwareIntegrityTester.vcxproj -> C:\Users\dougl\Desktop\PenguinsSwengFall2017-master (12)\PenguinsSwengFall2017-master\PenguinsSwengFall2017-master\SoftwareIntegrityTester\x64\Debug\SoftwareIntegrityTester.exe

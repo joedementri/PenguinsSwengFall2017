@@ -6,7 +6,7 @@
 /*				 can select and deselect weaknesses to customize how they want the S.I.T. to run and analyze files. Each weakness also
 /*				 has a description and a link to it's CWE online.
 /*
-/* Programmer:  Brandon Gordon, James McGrath, Cole Christensen, Tyler Ligenzowski, Joe Dementri
+/* Programmer:  Brandon Gordon, James Meredith, Cole Christensen, Tyler Ligenzowski, Joe Dementri
 /* 30 OCT 2017  FILTERSETTINGS
 *******************************************/
 
@@ -38,13 +38,13 @@ namespace SoftwareIntegrityTester {
 			for each (Weakness^ w in weaknessList)
 			{
 				wList->Items->Add(w);
-
 			}
 			//all checkboxes are checked by default
 			for (int i = 0; i < wList->Items->Count; i++)
 			{
 				wList->SetItemChecked(i, true);
 			}
+
 
 			propLabel->Visible = false;
 			linkLabel1->Visible = false;
@@ -62,24 +62,12 @@ namespace SoftwareIntegrityTester {
 				delete components;
 			}
 		}
-	private: System::Void saveBtn_Click(System::Object^  sender, System::EventArgs^  e) {
-		//Since the checkmarks don't stay unchecked when you close the form I made a button to save what was checked and
-		//unchecked into a list where i reference it in the main form
-		for (int i = 0; i < wList->CheckedItems->Count; i++)
-		{
-			checkedList->Add(wList->CheckedItems[i]);
-		}
-		FilterSettings::Visible = false;
-	}
 	private: System::Windows::Forms::CheckedListBox^  wList;
-	public: static List<Object^>^checkedList = gcnew List<Object^>();
 	protected:
 
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Label^  propLabel;
 	private: System::Windows::Forms::LinkLabel^  linkLabel1;
-	private: System::Windows::Forms::Button^  saveBtn;
-
 	protected:
 
 	private:
@@ -99,16 +87,15 @@ namespace SoftwareIntegrityTester {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->propLabel = (gcnew System::Windows::Forms::Label());
 			this->linkLabel1 = (gcnew System::Windows::Forms::LinkLabel());
-			this->saveBtn = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// wList
 			// 
 			this->wList->FormattingEnabled = true;
-			this->wList->Location = System::Drawing::Point(9, 10);
-			this->wList->Margin = System::Windows::Forms::Padding(2);
+			this->wList->Location = System::Drawing::Point(18, 19);
+			this->wList->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->wList->Name = L"wList";
-			this->wList->Size = System::Drawing::Size(266, 289);
+			this->wList->Size = System::Drawing::Size(528, 576);
 			this->wList->TabIndex = 0;
 			this->wList->SelectedIndexChanged += gcnew System::EventHandler(this, &FilterSettings::wList_SelectedIndexChanged);
 			// 
@@ -117,10 +104,10 @@ namespace SoftwareIntegrityTester {
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label1->Location = System::Drawing::Point(294, 10);
-			this->label1->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+			this->label1->Location = System::Drawing::Point(588, 19);
+			this->label1->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(85, 20);
+			this->label1->Size = System::Drawing::Size(171, 37);
 			this->label1->TabIndex = 1;
 			this->label1->Text = L"Properties:";
 			// 
@@ -129,44 +116,34 @@ namespace SoftwareIntegrityTester {
 			this->propLabel->AutoSize = true;
 			this->propLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->propLabel->Location = System::Drawing::Point(294, 46);
-			this->propLabel->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+			this->propLabel->Location = System::Drawing::Point(588, 88);
+			this->propLabel->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->propLabel->Name = L"propLabel";
-			this->propLabel->Size = System::Drawing::Size(0, 17);
+			this->propLabel->Size = System::Drawing::Size(0, 32);
 			this->propLabel->TabIndex = 2;
 			// 
 			// linkLabel1
 			// 
 			this->linkLabel1->AutoSize = true;
-			this->linkLabel1->Location = System::Drawing::Point(295, 180);
+			this->linkLabel1->Location = System::Drawing::Point(590, 346);
+			this->linkLabel1->Margin = System::Windows::Forms::Padding(6, 0, 6, 0);
 			this->linkLabel1->Name = L"linkLabel1";
-			this->linkLabel1->Size = System::Drawing::Size(55, 13);
+			this->linkLabel1->Size = System::Drawing::Size(110, 25);
 			this->linkLabel1->TabIndex = 3;
 			this->linkLabel1->TabStop = true;
 			this->linkLabel1->Text = L"linkLabel1";
 			this->linkLabel1->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &FilterSettings::linkLabel1_LinkClicked);
 			// 
-			// saveBtn
-			// 
-			this->saveBtn->Location = System::Drawing::Point(298, 315);
-			this->saveBtn->Name = L"saveBtn";
-			this->saveBtn->Size = System::Drawing::Size(100, 45);
-			this->saveBtn->TabIndex = 4;
-			this->saveBtn->Text = L"Save";
-			this->saveBtn->UseVisualStyleBackColor = true;
-			this->saveBtn->Click += gcnew System::EventHandler(this, &FilterSettings::saveBtn_Click);
-			// 
 			// FilterSettings
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(12, 25);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(659, 372);
-			this->Controls->Add(this->saveBtn);
+			this->ClientSize = System::Drawing::Size(1318, 715);
 			this->Controls->Add(this->linkLabel1);
 			this->Controls->Add(this->propLabel);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->wList);
-			this->Margin = System::Windows::Forms::Padding(2);
+			this->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->Name = L"FilterSettings";
 			this->Text = L"FilterSettings";
 			this->ResumeLayout(false);
@@ -195,6 +172,5 @@ namespace SoftwareIntegrityTester {
 	}
 	private: System::Void linkLabel1_LinkClicked(System::Object^  sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^  e) {
 	}
-
 };
 }

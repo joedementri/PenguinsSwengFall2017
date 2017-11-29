@@ -36,6 +36,8 @@ Class SoftwareIntegrityTester.MainForm: AutoLayout, AnsiClass, Class, Public, Be
   Fields:
     Boolean isDisplayPathChecked : Public
   Methods:
-    checkForWeakness1(StreamWriter): PrivateScope, Public, HideBySig
-    checkForWeakness2(StreamWriter): PrivateScope, Public, HideBySig
-    checkForWeakness3(StreamWriter): PrivateScope, Public, HideBySig
+    checkForWeakness1(String, StreamWriter): PrivateScope, Public, HideBySig
+    checkForWeakness3(String, StreamWriter): PrivateScope, Public, HideBySig
+    checkForWeakness2(String, StreamWriter): PrivateScope, Public, HideBySig
+    checkForWeakness5(StreamWriter): PrivateScope, Public, HideBySig
+    checkForWeakness6(StreamWriter): PrivateScope, Public, HideBySig

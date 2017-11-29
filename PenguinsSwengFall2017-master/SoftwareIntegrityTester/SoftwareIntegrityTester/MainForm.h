@@ -6,7 +6,7 @@
 /*				 and see a help box. It will have a settings button that opens the settings form, an open button which allows files
 /*				 to be selected and placed in the fileList to be analyzed, and a run button which starts the S.I.T.
 /*
-/* Programmer:  Brandon Gordon, James McGrath, Cole Christensen, Tyler Ligenzowski, Joe Dementri
+/* Programmer:  Brandon Gordon, James Meredith, Cole Christensen, Tyler Ligenzowski, Joe Dementri
 /* 14 OCT 2017  MAINFORM
 *******************************************/
 
@@ -108,6 +108,12 @@ namespace SoftwareIntegrityTester {
 	*	Load file explorer, when a file is opened, load it and display it into the fileList.
 	*	Behind the scenes, read the file in the console window to show it is being read correctly.
 	*/
+
+
+		String^ fileText; //set equal to the temp in the open function which is storing the String of file contents to use for testing in the run function
+		
+		array<String^>^ contents;
+	
 	private: System::Void openButton_Click(System::Object^  sender, System::EventArgs^  e) {
 		if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 		{
@@ -128,13 +134,15 @@ namespace SoftwareIntegrityTester {
 			temp = sr->ReadToEnd();
 			fileContentList->Add(temp);
 			sr->Close();
+			fileText = temp;
 			if (DEBUG) {
 				Console::WriteLine(
-					"ADDED:\n" +
-					temp + "\n" +
-					openFileDialog1->FileName + "\n" +
-					openFileDialog1->SafeFileName + "\n" +
+					"ADDED:\n" + "-------\n\n" + "long path:\n" + "------------\n" +
+					openFileDialog1->FileName + "\n\n" + "short path:\n" + "-------------\n" +
+					openFileDialog1->SafeFileName + "\n\n" +
 					SEPERATOR);
+
+				System::Console::WriteLine(SEPERATOR); System::Console::WriteLine(SEPERATOR); System::Console::WriteLine(SEPERATOR);
 			}
 		}
 	}
@@ -160,18 +168,13 @@ namespace SoftwareIntegrityTester {
 			System::Console::WriteLine(marshal_as<String^>(file_contents));
 
 
-			DateTime todayDate = System::DateTime::Now;
-			double dHours = todayDate.Hour;
-			double dMins = todayDate.Minute;
-			double dSeconds = todayDate.Second;
-			double totalSeconds = (dHours * 3600) + (dMins * 60) + dSeconds;
-			
-			String^ outputName = System::String::Format("{0:MM-dd-yyyy}", todayDate) + "_" + totalSeconds + ".txt";
+			String^ outputName = System::String::Format("{0:yyyy - MM - dd_hh - mm - ss - tt}", System::DateTime::Now) + ".txt";
 			String^ outputPath = userSettingsUI->getPath() + "/" + outputName;
 			if (!System::IO::File::Exists(outputPath)) {
 				System::IO::File::CreateText(outputPath)->Close();
 			}
 			System::IO::StreamWriter^ sw = gcnew System::IO::StreamWriter(outputPath);
+
 			sw->WriteLine("Software Integrity Tester Version " + VERSION);
 			sw->WriteLine("Files Scanned: ");
 			for (int i = 0; i < fileList->Items->Count; i++) {
@@ -179,54 +182,79 @@ namespace SoftwareIntegrityTester {
 			}
 			sw->WriteLine(SEPERATOR);
 			sw->WriteLine("Weaknesses Searched For: ");
-			for (int i = 0; i < FilterSettings::checkedList->Count; i++)
+			for (int i = 0; i < weaknessList->Count; i++) 
 			{
-				sw->WriteLine(FilterSettings::checkedList[i]);
+				sw->WriteLine(weaknessList[i]->ToString());
 			}
 			sw->WriteLine(SEPERATOR);
 
-			for each(Object^ o in FilterSettings::checkedList)
-			{
-				//some of the weaknesses have to be added to the weaknesslist
-				if (o->ToString() == "Use of uninitialized variable")
-				{
-					//if weakness 1 is checked
-					//run weakness 1 check
-					checkForWeakness1(sw);
-				}
-				if (o->ToString() == "Function and Procedure Tracking")
-				{
-					//if weakness 2 is checked
-					//run weakness 2 check
-					checkForWeakness2(sw);
-				}
-				if (o->ToString() == "Division by zero")
-				{
-					//if weakness 3 is checked
-					//run weakness 3 check
-					checkForWeakness3(sw);
-				}
-				if (o->ToString() == "Dead code")
-				{
-					//if weakenss 4 is checked
-					//run weakness 4 check
-					checkForWeakness4(sw);
-				}
-				if (o->ToString() == "Integer Overflow")
-				{
-					//if weakness 5 is checked
-					//run weakness 5 check
-					checkForWeakness5(sw);
-				}
-				if (o->ToString() == "Range Constraint Violation")
-				{
-					//if weakness 6 is checked
-					//run weakness 6 check
-					checkForWeakness6(sw);
-				}
+			//if weakness 1 is checked
+				//run weakness 1 check
 
-			}
+			System::Console::WriteLine(SEPERATOR);
+			sw->WriteLine(SEPERATOR);
+			System::Console::WriteLine("Weakness 1: Unused Variables");
+			System::Console::WriteLine("\tRisk: High");
+			System::Console::WriteLine();
+
+			sw->WriteLine("Weakness 1: Unused Variables");
+			sw->WriteLine("\tRisk: High");
+			sw->WriteLine();
+
+			checkForWeakness1(fileText, sw);
+			System::Console::WriteLine(SEPERATOR);
+			
+			//if weakness 2 is checked
+				//run weakness 2 check
+
+				System::Console::WriteLine(SEPERATOR);
+				sw->WriteLine(SEPERATOR);
+				System::Console::WriteLine("Weakness 2: Unused functions / Dead Code");
+				System::Console::WriteLine("\tRisk: High");
+				System::Console::WriteLine();
+				System::Console::WriteLine("procedures tracked: ");
+				System::Console::WriteLine();
+
+				sw->WriteLine("Weakness 2: Unused functions / Dead Code");
+				sw->WriteLine("\tRisk: High");
+				sw->WriteLine();
+				sw->WriteLine("procedures tracked: ");
+
+				checkForWeakness2(fileText, sw);
+				System::Console::WriteLine(SEPERATOR);
+			
+			//if weakness 3 is checked
+				//run weakness 3 check
+
+				System::Console::WriteLine(SEPERATOR);
+				sw->WriteLine(SEPERATOR);
+				System::Console::WriteLine("Weakness 3: Division by 0");
+				System::Console::WriteLine("\tRisk: High");
+				System::Console::WriteLine();
+
+				sw->WriteLine("Weakness 3: Division By 0");
+				sw->WriteLine("\tRisk: High");
+				sw->WriteLine();
+
+				checkForWeakness3(fileText, sw);
+				sw->WriteLine(SEPERATOR);
+
+			//if weakenss 4 is checked
+
+			//if weakness 5 is checked
+
+			//if weakness 6 is checked
+
+			//if weakness 7 is checked
+
 			//etc...
+
+
+
+			//System::Console::WriteLine(file);
+				
+
+
 
 			sw->Close();
 			//we can throw this code in another method called generate report or something and have the actual scan in here, or just have the scan run after and 
@@ -235,348 +263,292 @@ namespace SoftwareIntegrityTester {
 		}
 	}
 
-	public: System::Void checkForWeakness1(System::IO::StreamWriter^ sw) 
-	{
-		sw->WriteLine("Weakness 1: Uninitialized Variables");
-		sw->WriteLine("\tRisk: High");
-		sw->WriteLine();
 
-		//TODO: Put the code here
-
-
-		sw->WriteLine("This is where the output of the weakness check will go.");
-		sw->WriteLine(SEPERATOR);
-	}
-
-	public: System::Void checkForWeakness2(System::IO::StreamWriter^ sw)
-	{
-		sw->WriteLine("Weakness 2: Unused functions / Dead Code");
-		sw->WriteLine("\tRisk: High");
-		sw->WriteLine();
-
-		//the arrayOfContent is a vector that acts as an array. It holds what I want to be the string content
-		//of an Ada file without spaces if possible.
-
-
-
-		//FUNCTION TRACKING WEAKNESS
-		//------------------------------
-		//variables
-
-		//String^ fileName = fileList->Items[0]->ToString();
-		//std::ifstream infile{ msclr::interop::marshal_as<std::string>(fileName) };
-		//std::string file_contents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
-		//std::vector<String^> arrayOfContent = marshal_as<String^>(file_contents)->Split;
-		//array full of strings from the file separated by spaces
-
-		String^ temp = "";
-		System::IO::StreamReader^ sr = gcnew
-			System::IO::StreamReader(openFileDialog1->FileName);
-		temp = sr->ReadToEnd();
-		fileContentList->Add(temp);
-		sr->Close();
-
-		std::vector<String^> arrayOfContent = temp->Split;
-		
-		
-		std::vector<String^> foundFuncNames;//************************ how to initialize vectors ? gcnew doesn't work
-		int posFunc = 0; //setting index to find a procedure or function title
-		int posFuncName = posFunc + 1; //setting index for function or procedure name which will always be the index after the posFunc
-									   //protocol
-		String^ procedure = "procedure";
-		String^ function = "function";
-
-		for (posFunc; posFunc < arrayOfContent.size - 2; posFunc++) //not size-2 because posFuncName will account for the last string in the "array"
-		{
-			if (arrayOfContent.at(posFunc).Compare(procedure) == 1 || arrayOfContent->at(posFunc)->compare(function) == 1)
-			{
-				foundFuncNames.push_back(arrayOfContent.at(posFuncName));
-			}
-		}
-
-		System::Console::WriteLine("Here are the functions/procedures created: (blank if none)");
-		int funcUsage = 1; //before going into next for loop, funcUsage starts at 1 because we know foundFuncNames carries multiple function names found already (1 time)
-		for (String^ foundFunc : foundFuncNames)
-		{
-			for (int posInContent = 0; posInContent < arrayOfContent.size; posInContent++) //comparing to see if the names are used again so this increment must restart every found function name
-			{
-				if (arrayOfContent->at(posInContent)->compare(foundFunc) == 1)
-				{
-					funcUsage++;
-				}
-			}
-			System::Console::WriteLine(foundFunc.toString());	//basicstring tostring?	
-			if (funcUsage == 1)
-			{
-				System::Console::WriteLine("Procedure/Function created but not used");
-			}
-			else
-			{
-				System::Console::WriteLine("Procedure/Function used " + funcUsage + " times.");
-			}
-		}
-
-
-		sw->WriteLine("This is where the output of the weakness check will go.");
-		sw->WriteLine(SEPERATOR);
-	}
-
-	public: System::Void checkForWeakness3(System::IO::StreamWriter^ sw)
-	{
-		sw->WriteLine("Weakness 3: Division by 0");
-		sw->WriteLine("\tRisk: High");
-		sw->WriteLine();
-
-
-		//DIVIDE BY ZERO WEAKNESS
-		//--------------------------------
-		int posDivision = 0; //find division sign
-		int posZero = posDivision + 1; //find division sign
-									   //protocol
-		for (posDivision; posDivision < arrayOfContent.size - 2; posDivision++) //size-2 because posZero will account for the last string in the "array"
-		{
-			if (arrayOfContent.at(posDivision).compare("/") == 1 || arrayOfContent.at(posZero).compare("0") == 1)
-			{
-				System::Console::WriteLine("Cannot divide by 0 in position " + posDivision + " and " + posZero + ".");
-			}
-		}
-
-
-		sw->WriteLine("This is where the output of the weakness check will go.");
-		sw->WriteLine(SEPERATOR);
-	}
-	
-	
-	public: System::Void checkForWeakness4(System::IO::StreamWriter^ sw)
-	{
-		sw->WriteLine("Weakness 4: ");
-		sw->WriteLine("\tRisk: High");
-		sw->WriteLine();
-		
-		sw->WriteLine("This is where the output of the weakness check will go.");
-		sw->WriteLine(SEPERATOR);
-	}
-	
-	public: System::Void checkForWeakness5(System::IO::StreamWriter^ sw) 
-	{
-		sw->WriteLine("Weakness 5: Numeric Overflow");
-		sw->WriteLine("\tRisk: Medium");
-		sw->WriteLine();
-
-		
-		//Overflow weakness
-		//--------------------------------
-		for (int i = 0; i < fileList->Items->Count; i++)
-		{
-			sw->WriteLine(fileList->Items[i]);
-			//Get the file into file contents
-			String^ fileName = fileList->Items[i]->ToString();
-			std::ifstream infile{ msclr::interop::marshal_as<std::string>(fileName) };
-			std::string file_contents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
-
-			//find all instances of 'First and 'Last
-			std::string firstAttribute = "'First";
-			std::string lastAttribute = "'Last";
-
-			//check for 'First first
-			int foundPos = file_contents.find(firstAttribute);
 			
-			while (foundPos != -1) 
+
+	public: System::Void checkForWeakness1(String^ file, System::IO::StreamWriter^ sw)
+	{
+
+
+
+
+
+	}
+
+	
+
+	public: System::Void checkForWeakness3(String^ file, System::IO::StreamWriter^ sw)
+	{
+		
+		if (file->IndexOf("/0") >= 0)
+		{
+			System::Console::WriteLine("problem at:");
+			System::Console::WriteLine("position " + file->IndexOf("/0"));
+
+			sw->WriteLine("problem at:");
+			sw->WriteLine("position " + file->IndexOf("/0"));
+
+			checkForWeakness3(file->Substring(file->IndexOf("/0") + 2), sw);
+
+		}
+        
+	}
+
+		//checks a string of file contents using the contents String^ type and a passed streamwriter used for our log
+		//variable function names are printed and traced. reparsing of smaller strings helps recursively find later procedures
+		public: System::Void checkForWeakness2(String^ file, System::IO::StreamWriter^ sw)
+		{
+
+			if (file->IndexOf("procedure") >= 0)
 			{
-				//if you do find it, find the variable associated with it and save it for output
-				//find the space before
-				std::string assignmentOperator = ":=";
-				int assignmentOperatorPosition = file_contents.find(assignmentOperator);
+				String^ textAftProc = file->Substring(file->IndexOf("procedure") + 10); //text after the procedure keyword and following space
+				String^ name = textAftProc->Substring(0, textAftProc->IndexOf(" ")); //from pos 0 of procedure name to the first space
+				System::Console::WriteLine(name);//the name of procedure is printed
+				sw->WriteLine(name);
 
-				int lastAssnOpBeforePassing = assignmentOperatorPosition;
-
-				//Find all the :=, keeping track of the last one before the foundPos
-				while (assignmentOperatorPosition != -1 && assignmentOperatorPosition < foundPos) 
+				if (textAftProc->Substring(0 + name->Length)->IndexOf(name) >= 0) //all text after the procedure name searched for repeat calls
 				{
-					//Keep track of the position of the last := before the while loop breaks
-					lastAssnOpBeforePassing = assignmentOperatorPosition;
-					assignmentOperatorPosition = file_contents.find(assignmentOperator, assignmentOperatorPosition+1);
+					//int temp = textAftProc->Substring(0 + name->Length)->IndexOf(name) + name->Length;
+					//if (!textAftProc->Substring(temp + 1, temp + 1)->Equals(";"))  //deals with line tracking
+					//{
+						System::Console::WriteLine("Procedure " + name + " has use."); //if used again cal
+						sw->WriteLine("Procedure " + name + " has use.");
+					//}
+					
+				}
+				else
+				{
+					System::Console::WriteLine("Procedure " + name + " never used.");
+					sw->WriteLine("Procedure " + name + " never used.");
 				}
 
-				std::string declarationOperator = ":";
-				int declarationOperatorPosition = file_contents.find(declarationOperator);
-
-				int lastDeclOpBeforePassing = declarationOperatorPosition;
-
-				//Find all the ":", keeping track of the last one before lastAssnOpBeforePassing
-				while (declarationOperatorPosition != -1 && declarationOperatorPosition < lastAssnOpBeforePassing) 
-				{
-					//Keep track of the position of the last : before the while loop breaks
-					lastDeclOpBeforePassing = declarationOperatorPosition;
-					declarationOperatorPosition = file_contents.find(declarationOperator, declarationOperatorPosition+1);
-				}
-
-				std::string newlineOperator = "\n";
-				int newlineOperatorPosition = file_contents.find(newlineOperator);
-
-				int lastNewlineOpBeforePassing = newlineOperatorPosition;
-
-				//Find all the \n, keeping track of the last one before lastDeclOpBeforePassing
-				while (newlineOperatorPosition != -1 && newlineOperatorPosition < lastDeclOpBeforePassing) 
-				{
-					//Keep track of the position of the last \n before the while loop breaks
-					lastNewlineOpBeforePassing = newlineOperatorPosition;
-					newlineOperatorPosition = file_contents.find(newlineOperator, newlineOperatorPosition+1);
-				}
-
-				int lengthOfVarName = lastDeclOpBeforePassing - lastNewlineOpBeforePassing;
-				std::string varName = file_contents.substr(lastNewlineOpBeforePassing, lengthOfVarName);
-				sw->WriteLine("\tVariable(s) assigned with 'First: " + marshal_as<String^>(varName));
-
-				//Reset the foundPos variable to search the rest of the string to find 'First
-				foundPos = file_contents.find(firstAttribute, foundPos+1);
-
-			}
-
-			//*****************************************************************************************************
-			//VISIBILITY COMMENT - this is where 'Last search begins
-			//*****************************************************************************************************
-
-			//check for 'Last next
-			foundPos = file_contents.find(lastAttribute);
-
-			while (foundPos != -1)
-			{
-				//if you do find it, find the variable associated with it and save it for output
-				//find the space before
-				std::string assignmentOperator = ":=";
-				int assignmentOperatorPosition = file_contents.find(assignmentOperator);
-
-				int lastAssnOpBeforePassing = assignmentOperatorPosition;
-
-				//Find all the :=, keeping track of the last one before the foundPos
-				while (assignmentOperatorPosition != -1 && assignmentOperatorPosition < foundPos)
-				{
-					//Keep track of the position of the last := before the while loop breaks
-					lastAssnOpBeforePassing = assignmentOperatorPosition;
-					assignmentOperatorPosition = file_contents.find(assignmentOperator, assignmentOperatorPosition+1);
-				}
-
-				std::string declarationOperator = ":";
-				int declarationOperatorPosition = file_contents.find(declarationOperator);
-
-				int lastDeclOpBeforePassing = declarationOperatorPosition;
-
-				//Find all the ":", keeping track of the last one before lastAssnOpBeforePassing
-				while (declarationOperatorPosition != -1 && declarationOperatorPosition < lastAssnOpBeforePassing)
-				{
-					//Keep track of the position of the last : before the while loop breaks
-					lastDeclOpBeforePassing = declarationOperatorPosition;
-					declarationOperatorPosition = file_contents.find(declarationOperator, declarationOperatorPosition+1);
-				}
-
-				std::string newlineOperator = "\n";
-				int newlineOperatorPosition = file_contents.find(newlineOperator);
-
-				int lastNewlineOpBeforePassing = newlineOperatorPosition;
-
-				//Find all the \n, keeping track of the last one before lastDeclOpBeforePassing
-				while (newlineOperatorPosition != -1 && newlineOperatorPosition < lastDeclOpBeforePassing)
-				{
-					//Keep track of the position of the last \n before the while loop breaks
-					lastNewlineOpBeforePassing = newlineOperatorPosition;
-					newlineOperatorPosition = file_contents.find(newlineOperator, newlineOperatorPosition+1);
-				}
-
-				int lengthOfVarName = lastDeclOpBeforePassing - lastNewlineOpBeforePassing;
-				std::string varName = file_contents.substr(lastNewlineOpBeforePassing, lengthOfVarName);
-				sw->WriteLine("\tVariable(s) assigned with 'Last: " + marshal_as<String^>(varName));
-
-				//Reset the foundPos variable to search the rest of the string to find 'First
-				foundPos = file_contents.find(lastAttribute, foundPos+1);
-
+				checkForWeakness2(file->Substring(file->IndexOf(textAftProc) + name->Length), sw); //recursively find more procedures after the previous procedure or don't recurse if none.
 			}
 
 		}
-		
 
-		sw->WriteLine("");
-		sw->WriteLine(SEPERATOR);
-	}
 
-	public: System::Void checkForWeakness6(System::IO::StreamWriter^ sw) 
-	{
-		sw->WriteLine("Weakness 6: Range Constraints");
-		sw->WriteLine("\tRisk: Medium");
-		sw->WriteLine();
-		
-		//Range Constraint Weakness
-		for (int i = 0; i < fileList->Items->Count; i++)
-		{
-			sw->WriteLine(fileList->Items[i]);
-
-			//Get the file into file contents
-			String^ fileName = fileList->Items[i]->ToString();
-			std::ifstream infile{ msclr::interop::marshal_as<std::string>(fileName) };
-			std::string file_contents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
-
-			std::string rangeOperator = "..";
-
-			int rangeOperatorPosition = file_contents.find(rangeOperator);
-
-			//find each instance of .. in the program
-			while (rangeOperatorPosition != -1) 
-			{
-				std::string arrayName = "is array";
-				int arrayNamePosition = file_contents.find(arrayName);
-				int lastArrayNamePosition = arrayNamePosition;
-
-				//find where array name is
-				while (arrayNamePosition != -1 && arrayNamePosition < rangeOperatorPosition)
+				public: System::Void checkForWeakness5(System::IO::StreamWriter^ sw)
 				{
-					lastArrayNamePosition = arrayNamePosition;
-					arrayNamePosition = file_contents.find(arrayName, arrayNamePosition + 1);
+					sw->WriteLine("Weakness 5: Numeric Overflow");
+					sw->WriteLine("\tRisk: Medium");
+					sw->WriteLine();
 
-				}
-				sw->WriteLine("Range Operator Position: " + rangeOperatorPosition);
-				sw->WriteLine("is array position: " + lastArrayNamePosition);
-				if (rangeOperatorPosition-arrayNamePosition < 50) 
-				{
-					std::string ofKW = "of";
-					int ofPosition = file_contents.find(ofKW, rangeOperatorPosition);
-					std::string bounds = file_contents.substr(lastArrayNamePosition + 8, ofPosition - (lastArrayNamePosition + 8));
 
-					std::string newlineOperator = "\n";
-					int newlineOperatorPosition = file_contents.find(newlineOperator);
-
-					int lastNewlineOpBeforePassing = newlineOperatorPosition;
-
-					//Find all the \n, keeping track of the last one before lastDeclOpBeforePassing
-					while (newlineOperatorPosition != -1 && newlineOperatorPosition < lastArrayNamePosition)
+					//Overflow weakness
+					//--------------------------------
+					for (int i = 0; i < fileList->Items->Count; i++)
 					{
-						//Keep track of the position of the last \n before the while loop breaks
-						lastNewlineOpBeforePassing = newlineOperatorPosition;
-						newlineOperatorPosition = file_contents.find(newlineOperator, newlineOperatorPosition + 1);
+						sw->WriteLine(fileList->Items[i]);
+						//Get the file into file contents
+						String^ fileName = fileList->Items[i]->ToString();
+						std::ifstream infile{ msclr::interop::marshal_as<std::string>(fileName) };
+						std::string file_contents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
+
+						//find all instances of 'First and 'Last
+						std::string firstAttribute = "'First";
+						std::string lastAttribute = "'Last";
+
+						//check for 'First first
+						int foundPos = file_contents.find(firstAttribute);
+
+						while (foundPos != -1)
+						{
+							//if you do find it, find the variable associated with it and save it for output
+							//find the space before
+							std::string assignmentOperator = ":=";
+							int assignmentOperatorPosition = file_contents.find(assignmentOperator);
+
+							int lastAssnOpBeforePassing = assignmentOperatorPosition;
+
+							//Find all the :=, keeping track of the last one before the foundPos
+							while (assignmentOperatorPosition != -1 && assignmentOperatorPosition < foundPos)
+							{
+								//Keep track of the position of the last := before the while loop breaks
+								lastAssnOpBeforePassing = assignmentOperatorPosition;
+								assignmentOperatorPosition = file_contents.find(assignmentOperator, assignmentOperatorPosition + 1);
+							}
+
+							std::string declarationOperator = ":";
+							int declarationOperatorPosition = file_contents.find(declarationOperator);
+
+							int lastDeclOpBeforePassing = declarationOperatorPosition;
+
+							//Find all the ":", keeping track of the last one before lastAssnOpBeforePassing
+							while (declarationOperatorPosition != -1 && declarationOperatorPosition < lastAssnOpBeforePassing)
+							{
+								//Keep track of the position of the last : before the while loop breaks
+								lastDeclOpBeforePassing = declarationOperatorPosition;
+								declarationOperatorPosition = file_contents.find(declarationOperator, declarationOperatorPosition + 1);
+							}
+
+							std::string newlineOperator = "\n";
+							int newlineOperatorPosition = file_contents.find(newlineOperator);
+
+							int lastNewlineOpBeforePassing = newlineOperatorPosition;
+
+							//Find all the \n, keeping track of the last one before lastDeclOpBeforePassing
+							while (newlineOperatorPosition != -1 && newlineOperatorPosition < lastDeclOpBeforePassing)
+							{
+								//Keep track of the position of the last \n before the while loop breaks
+								lastNewlineOpBeforePassing = newlineOperatorPosition;
+								newlineOperatorPosition = file_contents.find(newlineOperator, newlineOperatorPosition + 1);
+							}
+
+							int lengthOfVarName = lastDeclOpBeforePassing - lastNewlineOpBeforePassing;
+							std::string varName = file_contents.substr(lastNewlineOpBeforePassing, lengthOfVarName);
+							sw->WriteLine("\tVariable(s) assigned with 'First: " + marshal_as<String^>(varName));
+
+							//Reset the foundPos variable to search the rest of the string to find 'First
+							foundPos = file_contents.find(firstAttribute, foundPos + 1);
+
+						}
+
+						//*****************************************************************************************************
+						//VISIBILITY COMMENT - this is where 'Last search begins
+						//*****************************************************************************************************
+
+						//check for 'Last next
+						foundPos = file_contents.find(lastAttribute);
+
+						while (foundPos != -1)
+						{
+							//if you do find it, find the variable associated with it and save it for output
+							//find the space before
+							std::string assignmentOperator = ":=";
+							int assignmentOperatorPosition = file_contents.find(assignmentOperator);
+
+							int lastAssnOpBeforePassing = assignmentOperatorPosition;
+
+							//Find all the :=, keeping track of the last one before the foundPos
+							while (assignmentOperatorPosition != -1 && assignmentOperatorPosition < foundPos)
+							{
+								//Keep track of the position of the last := before the while loop breaks
+								lastAssnOpBeforePassing = assignmentOperatorPosition;
+								assignmentOperatorPosition = file_contents.find(assignmentOperator, assignmentOperatorPosition + 1);
+							}
+
+							std::string declarationOperator = ":";
+							int declarationOperatorPosition = file_contents.find(declarationOperator);
+
+							int lastDeclOpBeforePassing = declarationOperatorPosition;
+
+							//Find all the ":", keeping track of the last one before lastAssnOpBeforePassing
+							while (declarationOperatorPosition != -1 && declarationOperatorPosition < lastAssnOpBeforePassing)
+							{
+								//Keep track of the position of the last : before the while loop breaks
+								lastDeclOpBeforePassing = declarationOperatorPosition;
+								declarationOperatorPosition = file_contents.find(declarationOperator, declarationOperatorPosition + 1);
+							}
+
+							std::string newlineOperator = "\n";
+							int newlineOperatorPosition = file_contents.find(newlineOperator);
+
+							int lastNewlineOpBeforePassing = newlineOperatorPosition;
+
+							//Find all the \n, keeping track of the last one before lastDeclOpBeforePassing
+							while (newlineOperatorPosition != -1 && newlineOperatorPosition < lastDeclOpBeforePassing)
+							{
+								//Keep track of the position of the last \n before the while loop breaks
+								lastNewlineOpBeforePassing = newlineOperatorPosition;
+								newlineOperatorPosition = file_contents.find(newlineOperator, newlineOperatorPosition + 1);
+							}
+
+							int lengthOfVarName = lastDeclOpBeforePassing - lastNewlineOpBeforePassing;
+							std::string varName = file_contents.substr(lastNewlineOpBeforePassing, lengthOfVarName);
+							sw->WriteLine("\tVariable(s) assigned with 'Last: " + marshal_as<String^>(varName));
+
+							//Reset the foundPos variable to search the rest of the string to find 'First
+							foundPos = file_contents.find(lastAttribute, foundPos + 1);
+
+						}
+
 					}
 
-					std::string arrayName = file_contents.substr(lastNewlineOpBeforePassing + 6, (lastArrayNamePosition - (lastNewlineOpBeforePassing + 6)));
 
-					sw->WriteLine("\tArray \"" + marshal_as<String^>(arrayName) + "\" has constraints " + marshal_as<String^>(bounds));
-					sw->WriteLine("\t\tPlease make sure you do not go out of the bounds of the array!");
-
+					sw->WriteLine("");
+					sw->WriteLine(SEPERATOR);
 				}
 
-				int nextOp = file_contents.find(rangeOperator, rangeOperatorPosition + 1);
-				if (nextOp != -1 && nextOp - rangeOperatorPosition < 20) 
+
+				public: System::Void checkForWeakness6(System::IO::StreamWriter^ sw)
 				{
-					rangeOperatorPosition = file_contents.find(rangeOperator, nextOp + 1);
+					sw->WriteLine("Weakness 6: Range Constraints");
+					sw->WriteLine("\tRisk: Medium");
+					sw->WriteLine();
+
+					//Range Constraint Weakness
+					for (int i = 0; i < fileList->Items->Count; i++)
+					{
+						sw->WriteLine(fileList->Items[i]);
+
+						//Get the file into file contents
+						String^ fileName = fileList->Items[i]->ToString();
+						std::ifstream infile{ msclr::interop::marshal_as<std::string>(fileName) };
+						std::string file_contents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
+
+						std::string rangeOperator = "..";
+
+						int rangeOperatorPosition = file_contents.find(rangeOperator);
+
+						//find each instance of .. in the program
+						while (rangeOperatorPosition != -1)
+						{
+							std::string arrayName = "is array";
+							int arrayNamePosition = file_contents.find(arrayName);
+							int lastArrayNamePosition = arrayNamePosition;
+
+							//find where array name is
+							while (arrayNamePosition != -1 && arrayNamePosition < rangeOperatorPosition)
+							{
+								lastArrayNamePosition = arrayNamePosition;
+								arrayNamePosition = file_contents.find(arrayName, arrayNamePosition + 1);
+
+							}
+							sw->WriteLine("Range Operator Position: " + rangeOperatorPosition);
+							sw->WriteLine("is array position: " + lastArrayNamePosition);
+							if (rangeOperatorPosition - arrayNamePosition < 50)
+							{
+								std::string ofKW = "of";
+								int ofPosition = file_contents.find(ofKW, rangeOperatorPosition);
+								std::string bounds = file_contents.substr(lastArrayNamePosition + 8, ofPosition - (lastArrayNamePosition + 8));
+
+								std::string newlineOperator = "\n";
+								int newlineOperatorPosition = file_contents.find(newlineOperator);
+
+								int lastNewlineOpBeforePassing = newlineOperatorPosition;
+
+								//Find all the \n, keeping track of the last one before lastDeclOpBeforePassing
+								while (newlineOperatorPosition != -1 && newlineOperatorPosition < lastArrayNamePosition)
+								{
+									//Keep track of the position of the last \n before the while loop breaks
+									lastNewlineOpBeforePassing = newlineOperatorPosition;
+									newlineOperatorPosition = file_contents.find(newlineOperator, newlineOperatorPosition + 1);
+								}
+
+								std::string arrayName = file_contents.substr(lastNewlineOpBeforePassing + 6, (lastArrayNamePosition - (lastNewlineOpBeforePassing + 6)));
+
+								sw->WriteLine("\tArray \"" + marshal_as<String^>(arrayName) + "\" has constraints " + marshal_as<String^>(bounds));
+								sw->WriteLine("\t\tPlease make sure you do not go out of the bounds of the array!");
+
+							}
+
+							int nextOp = file_contents.find(rangeOperator, rangeOperatorPosition + 1);
+							if (nextOp != -1 && nextOp - rangeOperatorPosition < 20)
+							{
+								rangeOperatorPosition = file_contents.find(rangeOperator, nextOp + 1);
+							}
+							else {
+								rangeOperatorPosition = file_contents.find(rangeOperator, rangeOperatorPosition + 1);
+							}
+
+						}
+
+					}
+
+					sw->WriteLine("");
+					sw->WriteLine(SEPERATOR);
 				}
-				else {
-					rangeOperatorPosition = file_contents.find(rangeOperator, rangeOperatorPosition + 1);
-				}
-
-			}
-
-		}
-
-		sw->WriteLine("");
-		sw->WriteLine(SEPERATOR);
-	}
 
 	public: bool isDisplayPathChecked = false; //Boolean to check if check box in settings is checked!
 
