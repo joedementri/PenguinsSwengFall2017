@@ -1,0 +1,46 @@
+Software Integrity Tester Version 0.1.0
+Files Scanned: 
+geometry_BAD.adb  
+fibonacci_BAD.adb  
+---------------------------------
+
+Weaknesses Searched For: 
+Improper Handling of Undefined Values
+Use of uninitialized variable
+Null pointer dereference
+Dead code
+Infinite loop
+Incorrect synchronization
+Missing synchronization
+Incorrect Calculation
+Expression is always true
+Expression is always false
+Unused or redundant assignement
+Division by zero
+Race condition
+Integer Overflow
+Integer Underflow
+---------------------------------
+
+Weakness 1: Unused Variables
+	Risk: High
+
+Weakness 2: Unused functions / Dead Code
+	Risk: High
+
+procedures tracked: 
+Fibonacci
+Procedure Fibonacci has use.
+trackThisFunction
+Procedure trackThisFunction never used.
+trackFunction2
+Procedure trackFunction2 never used.
+track3
+Procedure track3 has use.
+Weakness 3: Division By 0
+	Risk: High
+
+problem at:
+position 846
+---------------------------------
+
