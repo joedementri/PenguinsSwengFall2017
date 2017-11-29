@@ -135,12 +135,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AdaSource.cpp" />
     <ClCompile Include="FilterSettings.cpp" />
     <ClCompile Include="MainForm.cpp" />
     <ClCompile Include="UserSettings.cpp" />
+    <ClCompile Include="Variable.cpp" />
     <ClCompile Include="Weakness.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AdaSource.h" />
     <ClInclude Include="FilterSettings.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -150,6 +153,7 @@
     <ClInclude Include="UserSettings.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Variable.h" />
     <ClInclude Include="Weakness.h" />
   </ItemGroup>
   <ItemGroup>

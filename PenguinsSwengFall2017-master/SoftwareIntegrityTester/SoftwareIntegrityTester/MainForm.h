@@ -14,6 +14,7 @@
 #include "Weakness.h"
 #include "UserSettings.h"
 #include "FilterSettings.h"
+#include "AdaSource.h"
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -151,6 +152,12 @@ namespace SoftwareIntegrityTester {
 		}
 		else {
 			
+			//create ada source object to find all variables and methods and their uses
+			for each (String^ file in fileContentList)
+			{
+				AdaSource^ as = gcnew AdaSource(file);
+			}
+
 			//Test Case:
 			String^ fileName = fileList->Items[0]->ToString();
 			std::ifstream infile{ msclr::interop::marshal_as<std::string>(fileName) };
