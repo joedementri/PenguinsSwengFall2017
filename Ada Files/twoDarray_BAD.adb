@@ -1,4 +1,4 @@
--- 2D array example
+-- 2D [] example
 -- Read tic-tac-toe board and determine whether X or O has won
 
 with Ada.Text_IO;
@@ -9,7 +9,7 @@ procedure ttt_win is
 	Board: BoardArray;
 	Delimiter: character;
 
-	function win(Board: BoardArray; Player: character) return Boolean is
+	procedure win(Board: BoardArray; Player: character) return Boolean is
 	begin
 		-- Check row wins
 		for row in 1..3 loop

@@ -1,15 +1,11 @@
--- 2D [] example
+-- 2D array example
 -- Read tic-tac-toe board and determine whether X or O has won
 
 with Ada.Text_IO;
 use Ada.Text_IO;
 
 procedure ttt_win is
-	type BoardArray is array (1 .. 3, 1 .. 3) of character;
-	X: Integer := Integer'First;
-	Y: Integer := Integer'Last;
-	Var1, Var2, Var3: Integer := Integer'First;
-	type Character_Counter is array ('A' .. 'Z') of character;
+	type BoardArray is array(1..3, 1..3) of character;
 	Board: BoardArray;
 	Delimiter: character;
 
@@ -79,7 +75,8 @@ begin
 
 	if win(Board, 'X') then
 		put_line("X has won");
-	elsif win(Board, 'O') then
+		--Intentional duplicate condition on next line
+	elsif win(Board, 'X') then
 		put_line("O has won");
 	else
 		put_line("Nobody has won");
