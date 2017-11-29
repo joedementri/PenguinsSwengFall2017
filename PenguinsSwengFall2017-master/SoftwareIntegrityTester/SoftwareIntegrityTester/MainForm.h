@@ -6,7 +6,7 @@
 /*				 and see a help box. It will have a settings button that opens the settings form, an open button which allows files
 /*				 to be selected and placed in the fileList to be analyzed, and a run button which starts the S.I.T.
 /*
-/* Programmer:  Brandon Gordon, James Meredith, Cole Christensen, Tyler Ligenzowski, Joe Dementri
+/* Programmer:  Brandon Gordon, James McGrath, Cole Christensen, Tyler Ligenzowski, Joe Dementri
 /* 14 OCT 2017  MAINFORM
 *******************************************/
 
@@ -166,7 +166,7 @@ namespace SoftwareIntegrityTester {
 			double dSeconds = todayDate.Second;
 			double totalSeconds = (dHours * 3600) + (dMins * 60) + dSeconds;
 			
-			String^ outputName = System::String::Format("{0:MM-dd-yyyy}", todayDate) + " - Secs " + totalSeconds + ".txt";
+			String^ outputName = System::String::Format("{0:MM-dd-yyyy}", todayDate) + "_" + totalSeconds + ".txt";
 			String^ outputPath = userSettingsUI->getPath() + "/" + outputName;
 			if (!System::IO::File::Exists(outputPath)) {
 				System::IO::File::CreateText(outputPath)->Close();
@@ -179,35 +179,53 @@ namespace SoftwareIntegrityTester {
 			}
 			sw->WriteLine(SEPERATOR);
 			sw->WriteLine("Weaknesses Searched For: ");
-			for (int i = 0; i < weaknessList->Count; i++) 
+			for (int i = 0; i < FilterSettings::checkedList->Count; i++)
 			{
-				sw->WriteLine(weaknessList[i]->ToString());
+				sw->WriteLine(FilterSettings::checkedList[i]);
 			}
 			sw->WriteLine(SEPERATOR);
 
-			//if weakness 1 is checked
-				//run weakness 1 check
-				checkForWeakness1(sw);
-			
-			//if weakness 2 is checked
-				//run weakness 2 check
-				checkForWeakness2(sw);
-			
-			//if weakness 3 is checked
-				//run weakness 3 check
-				checkForWeakness3(sw);
+			for each(Object^ o in FilterSettings::checkedList)
+			{
+				//some of the weaknesses have to be added to the weaknesslist
+				if (o->ToString() == "Use of uninitialized variable")
+				{
+					//if weakness 1 is checked
+					//run weakness 1 check
+					checkForWeakness1(sw);
+				}
+				if (o->ToString() == "Function and Procedure Tracking")
+				{
+					//if weakness 2 is checked
+					//run weakness 2 check
+					checkForWeakness2(sw);
+				}
+				if (o->ToString() == "Division by zero")
+				{
+					//if weakness 3 is checked
+					//run weakness 3 check
+					checkForWeakness3(sw);
+				}
+				if (o->ToString() == "Dead code")
+				{
+					//if weakenss 4 is checked
+					//run weakness 4 check
+					checkForWeakness4(sw);
+				}
+				if (o->ToString() == "Integer Overflow")
+				{
+					//if weakness 5 is checked
+					//run weakness 5 check
+					checkForWeakness5(sw);
+				}
+				if (o->ToString() == "Range Constraint Violation")
+				{
+					//if weakness 6 is checked
+					//run weakness 6 check
+					checkForWeakness6(sw);
+				}
 
-			//if weakenss 4 is checked
-				//run weakness 4 check
-				checkForWeakness4(sw);
-			//if weakness 5 is checked
-				//run weakness 5 check
-				checkForWeakness5(sw);
-			//if weakness 6 is checked
-				//run weakness 6 check
-				checkForWeakness6(sw);
-			//if weakness 7 is checked
-
+			}
 			//etc...
 
 			sw->Close();
