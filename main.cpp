@@ -3,6 +3,11 @@
 #include <string>
 #include <fstream>
 #include <streambuf>
+#include <time.h>
+#include "AdaWeaknesses.h"
+
+#define SEPERATOR "---------------------------------\n"
+#define VERSION "1.0.0.0"
 
 using namespace std;
 
@@ -11,8 +16,12 @@ void selectFiles();
 void viewFiles();
 void changeSettings();
 void displayHelp();
+string currentDateTime();
 
 std::string fileContents [10];
+
+//Create Ada Weakness Object
+AdaWeaknesses wc;
 
 bool filters [10];
 std::string nameOfFilters[10] = {"Uninitialized Variables", "Unused Procedures", "Division by 0", "Dead Code", "Numeric Overflow", "Range Constraint Violation", "Expression Always True", "Expression Always False", "Redundant Conditionals", "Infinite Loops"};
@@ -22,7 +31,7 @@ std::string filePath = "/home";  //default to home root because linux and don't 
 
 int main ()
 {
-
+  
   //Initialize filters array
   for (int i = 0; i < sizeof(filters); i++) {
     filters[i] = true; //Initialize to true so everything will be checked
@@ -76,10 +85,107 @@ int main ()
   return 0;
 }
 
-void runTester() {
-  printf("\nrunTesterMethod");
+string currentDateTime() {
+  time_t now = time(0);
+  struct tm tstruct;
+  char buf[80];
+  tstruct = *localtime(&now);
+  strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+  return buf;
+}
 
-  //TODO: Everything
+void runTester() {
+  printf("\n");
+
+  // Make sure they have a file in the queue
+  if (numItemsInArray == 0) {
+    printf("Error: No files in queue");
+  } else {
+
+    //If so, do everything:
+
+    //Create output file at desired path
+    string outputName = currentDateTime() + ".txt";
+    string outputPath = filePath + "/" + outputName;
+
+    ofstream myfile;
+    myfile.open(outputName.c_str());
+    myfile << "Software Integrity Tester";
+    myfile << "\n\tVersion: " << VERSION;
+    myfile << "\n" << SEPERATOR;
+    myfile << "\n";
+    
+    myfile << "\n" << "Files scanned:";
+    //write name of all files scanned
+    for (int i = 0; i < numItemsInArray; i++) {
+      myfile << "\n\t" << (i+1) << ") " << fileContents[i];
+    }
+    myfile << "\n" << SEPERATOR;
+    myfile << "\n";
+
+    myfile << "\n" << "Weaknesses checked:";
+    //write name(s) of all weaknesses checked for
+    for (int i = 0; i < sizeof(filters); i++) {
+      if (filters[i] == 1) {
+	myfile << "\n\t" << nameOfFilters[i];
+      }
+    }
+    myfile << "\n" << SEPERATOR;
+    
+    //looping if statement, check each weakness for each file using boolean array
+    for (int i = 0; i < numItemsInArray; i++) {
+      myfile << "\n" << SEPERATOR;
+      myfile << "\n" << fileContents[i];
+      myfile << "\n" << SEPERATOR;
+      myfile << "\n";
+
+      if (filters[0] == 1) {
+	wc.checkForWeakness1(myfile);
+      }
+
+      if (filters[1] == 1) {
+	wc.checkForWeakness2(myfile);
+      }
+
+      if (filters[2] == 1) {
+	wc.checkForWeakness3(myfile);
+      }
+
+      if (filters[3] == 1) {
+	wc.checkForWeakness4(myfile);
+      }
+
+      if (filters[4] == 1) {
+	wc.checkForWeakness5(myfile);
+      }
+
+      if (filters[5] == 1) {
+	wc.checkForWeakness6(myfile);
+      }
+
+      if (filters[6] == 1) {
+	wc.checkForWeakness7(myfile);
+      }
+
+      if (filters[7] == 1) {
+	wc.checkForWeakness8(myfile);
+      }
+
+      if (filters[8] == 1) {
+	wc.checkForWeakness9(myfile);
+      }
+
+      if (filters[9] == 1) {
+	wc.checkForWeakness10(myfile);
+      }
+
+      myfile << "\n" << SEPERATOR;
+	  
+    }
+    //end loop
+    myfile.close();
+    
+  }
 
   printf("\n");
   
