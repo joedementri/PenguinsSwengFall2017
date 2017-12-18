@@ -10,8 +10,66 @@ AdaWeaknesses::AdaWeaknesses() {
 }
 
 void AdaWeaknesses::checkForWeakness1(std::ofstream& mystream, string fileContents) {
-  mystream << "\nTestLine1";
+  mystream << "\nUninitialized Variables:\n";
+
+  //Keywords:
+  string assignment = ":=";
+  string declaration = ": ";
+  //initial pos
+  int assignmentPos = fileContents.find(assignment);
+  int declarationPos = fileContents.find(declaration);
+
+  if (declarationPos == -1) {
+    mystream << "\n\tNo Variables Declared";
+  }
+
+  if (assignmentPos == -1) {
+    mystream << "\n\tNo Variables Assigned.";
+  }
+
+  while (declarationPos != -1) {
+
+    //Get line num
+    int lineNum = 0;
+    int newlinePos = fileContents.find("\n");
+    int lastNewline = newlinePos;
+    while (newlinePos < declarationPos) {
+      lineNum++;
+      lastNewline = newlinePos;
+      newlinePos = fileContents.find("\n", newlinePos+1);
+    }
+
+
+    string name = fileContents.substr(lastNewline+2, declarationPos-lastNewline);
+    mystream << "\n\tDeclaration " << name << " found at line " << lineNum;
+    
+    declarationPos = fileContents.find(declaration, declarationPos+1);
+  }
+
+  while (assignmentPos != -1) {
+
+    //Get line num
+    int lineNum = 0;
+    int newlinePos = fileContents.find("\n");
+    while (newlinePos < assignmentPos) {
+      lineNum++;
+      newlinePos = fileContents.find("\n", newlinePos+1);
+    }
+
+    //find var name;
+    int seekPos = assignmentPos-2;
+    while (!(fileContents.substr(seekPos,1) == " ")) {
+      seekPos--;
+    }
+
+    string varName = fileContents.substr(seekPos, assignmentPos-seekPos);
+    mystream << "\n\tVariable \"" << varName << "\" assigned at line " << lineNum;
+
+    assignmentPos = fileContents.find(assignment, assignmentPos+1);
+  }
+
   
+  mystream << "\n";
 }
 
 void AdaWeaknesses::checkForWeakness2(std::ofstream& mystream, string fileContents) {
@@ -78,13 +136,72 @@ void AdaWeaknesses::checkForWeakness3(std::ofstream& mystream, string fileConten
     }  
 
     mystream << "\n\tDivision occurs at Line " << lineNum;
+    mystream << "\n\t\tPlease check to ensure equation cannot evaluate to 0";
     divisionPos = fileContents.find(division, divisionPos+1);
   }
   mystream << "\n";
 }
 
 void AdaWeaknesses::checkForWeakness4(std::ofstream& mystream, string fileContents) {
-  mystream << "\nTestLine4";
+  mystream << "\nConcurrency:\n";
+
+  //Keywords
+  string entry = "entry";
+  string accept = "accept";
+
+  int entryPos = fileContents.find(entry);
+  int acceptPos = fileContents.find(accept);
+
+  if (entryPos == -1) {
+    mystream << "\n\tNo instances of \"entry\" found";
+  }
+
+  if (acceptPos == -1) {
+    mystream << "\n\tNo instances of \"accept\" found";
+  }
+
+  while (entryPos != -1) {
+
+    //get line num
+    int lineNum = 0;
+    int newlinePos = fileContents.find("\n");
+    int lastNewline = newlinePos;
+    while (newlinePos < entryPos) {
+      lineNum++;
+      lastNewline = newlinePos;
+      newlinePos = fileContents.find("\n", newlinePos+1);
+    }
+
+    string lineOfCode = fileContents.substr(lastNewline+2, (newlinePos-(lastNewline+2)));
+    mystream << "\n\t\"entry\" found at line " << lineNum;
+    mystream << "\n\t\t Line: " << lineOfCode;
+    mystream << "\n\tPlease understand concurrency and how to use \"entry\"";
+
+    entryPos = fileContents.find(entry, entryPos+1);
+  }
+
+  while (acceptPos != -1) {
+
+    //get line num
+    int lineNum = 0;
+    int newlinePos = fileContents.find("\n");
+    int lastNewline = newlinePos;
+    while (newlinePos < acceptPos) {
+      lineNum++;
+      lastNewline = newlinePos;
+      newlinePos = fileContents.find("\n", newlinePos+1);
+    }
+
+    string lineOfCode = fileContents.substr(lastNewline+2, (newlinePos-(lastNewline+2)));
+    mystream << "\n\t\"accept\" found at line " << lineNum;
+    mystream << "\n\t\t Line: " << lineOfCode;
+    mystream << "\n\tPlease understand concurrency and how to use \"accept\"";
+
+    acceptPos = fileContents.find(accept, acceptPos+1);
+    
+  }  
+
+  mystream << "\n";
 }
 
 void AdaWeaknesses::checkForWeakness5(std::ofstream& mystream, string fileContents) {
