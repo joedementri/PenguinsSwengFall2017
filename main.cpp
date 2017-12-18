@@ -139,44 +139,55 @@ void runTester() {
       myfile << "\n" << SEPERATOR;
       myfile << "\n";
 
+      //Copy the file into a string to pass along
+      string fileText = "";
+      string line;
+      ifstream infile (fileContents[i].c_str());
+      if (infile.is_open()) {
+	while (getline(infile,line)) {
+	  fileText = fileText + "\n" + line;
+	}
+	infile.close();
+      }
+      
       if (filters[0] == 1) {
-	wc.checkForWeakness1(myfile);
+	wc.checkForWeakness1(myfile, fileText);
       }
 
       if (filters[1] == 1) {
-	wc.checkForWeakness2(myfile);
+	wc.checkForWeakness2(myfile, fileText);
       }
 
       if (filters[2] == 1) {
-	wc.checkForWeakness3(myfile);
+	wc.checkForWeakness3(myfile, fileText);
       }
 
       if (filters[3] == 1) {
-	wc.checkForWeakness4(myfile);
+	wc.checkForWeakness4(myfile, fileText);
       }
 
       if (filters[4] == 1) {
-	wc.checkForWeakness5(myfile);
+	wc.checkForWeakness5(myfile, fileText);
       }
 
       if (filters[5] == 1) {
-	wc.checkForWeakness6(myfile);
+	wc.checkForWeakness6(myfile, fileText);
       }
 
       if (filters[6] == 1) {
-	wc.checkForWeakness7(myfile);
+	wc.checkForWeakness7(myfile, fileText);
       }
 
       if (filters[7] == 1) {
-	wc.checkForWeakness8(myfile);
+	wc.checkForWeakness8(myfile, fileText);
       }
 
       if (filters[8] == 1) {
-	wc.checkForWeakness9(myfile);
+	wc.checkForWeakness9(myfile, fileText);
       }
 
       if (filters[9] == 1) {
-	wc.checkForWeakness10(myfile);
+	wc.checkForWeakness10(myfile, fileText);
       }
 
       myfile << "\n" << SEPERATOR;
@@ -287,19 +298,15 @@ void changeSettings() {
 	 cout << (i+1) << ") " << nameOfFilters[i] << ": " << "OFF" << endl;
        }
      }
-
-     cout << "\nCurrent output file destination: " << filePath << endl;
     
     printf("\n1) Change Filters");
-    printf("\n2) Change Output File Destination");
-    printf("\n3) Exit");
+    printf("\n2) Exit");
 
     printf("\nType number of desired option: ");
     cin >> subMenuInput;
     printf("\n");
 
     int filterNumToToggle = 0;
-    string newOutputPath = "";
 
     switch (subMenuInput)
     {
@@ -319,21 +326,15 @@ void changeSettings() {
 	printf("\n");
 	break;
       case 2:
-
-	printf("Enter new filepath for output file: ");
-	cin >> newOutputPath;
-	filePath = newOutputPath;
-	
-	
 	break;
       case 3:;
 	break;
       default:
 	printf("\nInvalid Input\n");
-	subMenuInput = 3;
+	subMenuInput = 2;
     }
     
-  } while (subMenuInput != 3);
+  } while (subMenuInput != 2);
   
   printf("\n");
 }

@@ -5,6 +5,9 @@
 #include <iostream>
 #include <fstream> 
 #include <streambuf>
+#include <string>
+
+using namespace std;
 
 class AdaWeaknesses
 {
@@ -14,16 +17,16 @@ class AdaWeaknesses
   AdaWeaknesses();
 
   //weaknesses
-  void checkForWeakness1(std::ofstream& mystream);
-  void checkForWeakness2(std::ofstream& mystream);
-  void checkForWeakness3(std::ofstream& mystream);
-  void checkForWeakness4(std::ofstream& mystream);
-  void checkForWeakness5(std::ofstream& mystream);
-  void checkForWeakness6(std::ofstream& mystream);
-  void checkForWeakness7(std::ofstream& mystream);
-  void checkForWeakness8(std::ofstream& mystream);
-  void checkForWeakness9(std::ofstream& mystream);
-  void checkForWeakness10(std::ofstream& mystream);
+  void checkForWeakness1(std::ofstream& mystream, string fileContents);
+  void checkForWeakness2(std::ofstream& mystream, string fileContents);
+  void checkForWeakness3(std::ofstream& mystream, string fileContents);
+  void checkForWeakness4(std::ofstream& mystream, string fileContents);
+  void checkForWeakness5(std::ofstream& mystream, string fileContents);
+  void checkForWeakness6(std::ofstream& mystream, string fileContents);
+  void checkForWeakness7(std::ofstream& mystream, string fileContents);
+  void checkForWeakness8(std::ofstream& mystream, string fileContents);
+  void checkForWeakness9(std::ofstream& mystream, string fileContents);
+  void checkForWeakness10(std::ofstream& mystream, string fileContents);
 };
 
 #endif
